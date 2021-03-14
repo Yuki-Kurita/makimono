@@ -11,6 +11,11 @@ const Header: React.FC = () => {
       <Link href="/collections/new">
         <a>コレクションを作成する</a>
       </Link>
+      {/* TODO: dynamic parameter */}
+      {/* <Link href=`/users/${user.id}`> */}
+      <Link href="/users/yukikur">
+        <a>user icon(マイページ)</a>
+      </Link>
     </div>
   );
 };
