@@ -20,7 +20,9 @@
       "@/*": [
         "src/*"
       ]
-    }
+    },
+    "skipLibCheck": true,
+    "moduleResolution": "node"
   },
   "include": [
     "next-env.d.ts",
