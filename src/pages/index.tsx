@@ -2,7 +2,7 @@ import Layout from "@/components/Layout";
 import Link from "next/link";
 import React from "react";
 
-const LandingPage = () => {
+const LandingPage: React.FC = () => {
   return (
     <Layout>
       <div>header</div>
