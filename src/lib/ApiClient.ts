@@ -12,9 +12,9 @@ class ApiClient {
     });
   }
 
-  public async applyAsUser(): Promise<GuideResponse> {
+  public async fetchGuides(): Promise<GuideResponse[]> {
     return this.client
-      .get<GuideResponse>("/api/guides")
+      .get<GuideResponse[]>("/api/guides")
       .then((res) => res.data)
       .catch((error: AxiosError) => {
         const status = error.response ? error.response.status : undefined;

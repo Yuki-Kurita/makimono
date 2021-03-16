@@ -12,7 +12,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       category: "programming",
     },
     {
-      id: 1,
+      id: 2,
       title: "JavaScriptマスターの道",
       publisher: "hoge hoge",
       publishedAt: "2020-12-24 13:00:00",
@@ -21,7 +21,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       category: "programming",
     },
     {
-      id: 1,
+      id: 3,
       title: "Pythonist",
       publisher: "fuga",
       publishedAt: "2021-12-22 10:00:00",
@@ -30,7 +30,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       category: "programming",
     },
     {
-      id: 1,
+      id: 4,
       title: "Spring Boot",
       publisher: "taro",
       publishedAt: "2021-04-22 10:00:00",
@@ -39,7 +39,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       category: "programming",
     },
     {
-      id: 1,
+      id: 5,
       title: "DDD",
       publisher: "taro",
       publishedAt: "2021-01-22 10:00:00",
@@ -48,7 +48,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       category: "programming",
     },
     {
-      id: 1,
+      id: 6,
       title: "一人暮らし料理",
       publisher: "hanako",
       publishedAt: "2019-12-22 11:00:00",
@@ -57,7 +57,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       category: "cooking",
     },
     {
-      id: 1,
+      id: 7,
       title: "お菓子入門",
       publisher: "hanako",
       publishedAt: "2020-07-22 10:00:00",
