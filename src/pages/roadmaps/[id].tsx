@@ -5,7 +5,7 @@ import GuideResponse from "@/lib/GuideResponse";
 import { GetStaticProps } from "next";
 import React from "react";
 
-interface ExplorePageProps {
+interface RoadmapDetailPageProps {
   guides: GuideResponse[];
 }
 
@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const ExplorePage = ({ guides }: ExplorePageProps) => {
+const RoadmapDetailPage = ({ guides }: RoadmapDetailPageProps) => {
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">
@@ -43,4 +43,4 @@ const ExplorePage = ({ guides }: ExplorePageProps) => {
   );
 };
 
-export default ExplorePage;
+export default RoadmapDetailPage;
