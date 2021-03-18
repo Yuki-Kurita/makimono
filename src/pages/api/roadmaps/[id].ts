@@ -8,16 +8,19 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
     title: "Javaマスターの道",
     item: [
       {
+        title: "first step",
         link: "https://hoge.com",
         comment: "まずはこれから",
         order: 1,
       },
       {
+        title: "second step",
         link: "https://fuga.com",
         comment: "次ははこれ",
         order: 2,
       },
       {
+        title: "third step",
         link: "https://tyotto-good.com",
         comment: "最後はこれ",
         order: 3,

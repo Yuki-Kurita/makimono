@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const ExplorePage = ({ guides }: ExplorePageProps) => {
+const ExplorePage: React.FC<ExplorePageProps> = ({ guides }) => {
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">
@@ -34,6 +34,7 @@ const ExplorePage = ({ guides }: ExplorePageProps) => {
                 like={guide.like}
                 type={guide.type}
                 category={guide.category}
+                id={guide.id}
                 key={guide.id}
               />
             ))}

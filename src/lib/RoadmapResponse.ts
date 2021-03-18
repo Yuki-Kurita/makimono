@@ -8,6 +8,7 @@ export default interface RoadmapResponse {
   category: string;
 }
 export interface Item {
+  title: string;
   link: string;
   comment: string;
   order: number;

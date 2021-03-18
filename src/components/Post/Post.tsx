@@ -1,6 +1,8 @@
+import Link from "next/link";
 import React from "react";
 
 interface PostProps {
+  id: number;
   title: string;
   publisher: string;
   publishedAt: string;
@@ -10,6 +12,7 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({
+  id,
   title,
   publisher,
   publishedAt,
@@ -19,7 +22,11 @@ const Post: React.FC<PostProps> = ({
 }) => {
   return (
     <article className="shadow-lg bg-white mb-3 w-8/12 py-4 px-3 ml-auto mr-auto rounded-lg">
-      <h2 className="font-bold text-lg">{title}</h2>
+      <Link href={`/roadmaps/${id}`}>
+        <a>
+          <h2 className="font-bold text-lg">{title}</h2>
+        </a>
+      </Link>
       <div className="mt-1 flex flex-nowrap text-gray-600">
         <svg
           className="w-4"
