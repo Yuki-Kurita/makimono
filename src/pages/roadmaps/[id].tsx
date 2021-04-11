@@ -2,15 +2,21 @@ import Layout from "@/components/Layout";
 import RoadMapItem from "@/components/RoadMapItem";
 import ApiClient from "@/lib/ApiClient";
 import RoadmapResponse from "@/lib/RoadmapResponse";
-import { GetStaticPaths, GetStaticProps } from "next";
+import {
+  GetStaticPaths,
+  GetStaticProps,
+
+  // eslint-disable-next-line prettier/prettier
+  NextPage
+} from "next";
 import React from "react";
 
 interface RoadmapDetailPageProps {
   roadmap: RoadmapResponse;
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { id } = context.params;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const id = params?.id;
   const roadmap = await ApiClient.fetchRoadmap(Number(id));
   return {
     props: { roadmap },
@@ -22,13 +28,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = roadmaps.map((roadmap) => ({
     params: { id: String(roadmap.id) },
   }));
+  console.log(paths);
   return {
     paths,
     fallback: false,
   };
 };
 
-const RoadmapDetailPage: React.FC<RoadmapDetailPageProps> = ({ roadmap }) => {
+const RoadmapDetailPage: NextPage<RoadmapDetailPageProps> = ({ roadmap }) => {
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">

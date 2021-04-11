@@ -1,7 +1,11 @@
+/* eslint-disable prettier/prettier */
 import FailedToCallApiError from "@/errors/FailedToCallApiError";
 import axios, { AxiosError, AxiosInstance } from "axios";
 import GuideResponse from "./GuideResponse";
-import { default as RoadmapResponse, default as RoadResponse } from "./RoadmapResponse";
+import {
+  default as RoadmapResponse,
+  default as RoadResponse
+} from "./RoadmapResponse";
 
 class ApiClient {
   private client: AxiosInstance;

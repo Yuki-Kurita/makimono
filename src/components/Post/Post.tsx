@@ -21,7 +21,7 @@ const Post: React.FC<PostProps> = ({
   category,
 }) => {
   return (
-    <article className="shadow-lg bg-white mb-3 w-8/12 py-4 px-3 ml-auto mr-auto rounded-lg">
+    <article className="shadow-lg bg-white mb-3 w-10/12 py-4 px-3 ml-auto mr-auto rounded-lg">
       <Link href={`/roadmaps/${id}`}>
         <a>
           <h2 className="font-bold text-lg">{title}</h2>
