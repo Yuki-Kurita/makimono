@@ -1,13 +1,17 @@
 import Layout from "@/components/Layout";
 import RoadMapForm from "@/components/RoadMapForm";
+import { useAppDispatch } from "@/store/hooks";
 import React, { useState } from "react";
 
 const CreateRoadmapPage: React.FC = () => {
   const [formCount, setFormCount] = useState(1);
+  const dispatch = useAppDispatch();
   const handleAddForm = () => {
     setFormCount((formCount) => formCount + 1);
   };
-  const handleOnSubmit = () => console.log("submit");
+  const handleOnSubmit = () => {
+    // TODO: APIにpost
+  };
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">
