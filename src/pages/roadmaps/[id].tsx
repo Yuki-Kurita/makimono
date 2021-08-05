@@ -1,14 +1,8 @@
-import Layout from "@/components/Layout";
+import Layout from "@/components/common/Layout";
 import RoadMapItem from "@/components/RoadMapItem";
 import ApiClient from "@/lib/ApiClient";
 import RoadmapResponse from "@/lib/RoadmapResponse";
-import {
-  GetStaticPaths,
-  GetStaticProps,
-
-  // eslint-disable-next-line prettier/prettier
-  NextPage
-} from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import React from "react";
 
 interface RoadmapDetailPageProps {

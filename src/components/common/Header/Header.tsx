@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState } from "react";
 
 const Header: React.FC = () => {
@@ -13,10 +14,12 @@ const Header: React.FC = () => {
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <a href="#">
               <span className="sr-only">Tebiki</span>
-              <img
+              <Image
                 className="h-8 w-auto sm:h-10 mr-3"
                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-                alt=""
+                width={200}
+                height={200}
+                alt="icon"
               />
             </a>
             <span className="w-10 h-10 flex justify-center items-center font-bold text-xl">
@@ -75,9 +78,11 @@ const Header: React.FC = () => {
           <div className="pt-5 pb-6 px-5">
             <div className="flex items-center justify-between">
               <div className="flex items-start justify-start">
-                <img
+                <Image
                   className="h-8 w-auto"
                   src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                  width={400}
+                  height={400}
                   alt="Workflow"
                 />
                 <span className="w-8 h-8 flex items-center font-bold text-xl ml-2">
