@@ -1,4 +1,5 @@
-import Layout from "@/components/Layout";
+import Layout from "@/components/common/Layout";
+import RoadmapPost from "@/components/RoadmapPost";
 import { Category } from "@/domain/category/Category";
 import { Roadmap } from "@/domain/roadmap/Roadmap";
 import { client } from "@/lib/config/apolloClient";
@@ -39,15 +40,31 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">
-        <h1 className="text-2xl font-bold mb-4 text-center">roadmaps</h1>
-        <div className="w-full mb-4">
-          <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
-        </div>
-        <h2>新着</h2>
-        <h1>{roadmaps && roadmaps.map((roadmap) => roadmap.title)}</h1>
+        <h1 className="text-3xl font-extrabold mb-4 text-center text-gray-600">
+          Latest
+        </h1>
+        {roadmaps &&
+          roadmaps.map((roadmap) => (
+            <RoadmapPost
+              {...{
+                id: roadmap.id,
+                title: roadmap.title,
+                itemCount: roadmap.items ? roadmap.items.length : 0,
+                category: roadmap.category.name,
+                tags: roadmap.tags,
+                likes: roadmap.likes,
+                author: roadmap.author,
+                updatedAt: roadmap.updatedAt,
+              }}
+              key={roadmap.id}
+            />
+          ))}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {categories.map((category) => category.name)}
         </div>
+        <h1 className="text-3xl font-extrabold mb-4 text-center text-gray-600">
+          Weekly Ranking
+        </h1>
       </main>
     </Layout>
   );

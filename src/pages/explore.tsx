@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import Layout from "@/components/common/Layout";
 import Post from "@/components/Post";
 import ApiClient from "@/lib/ApiClient";
 import GuideResponse from "@/lib/GuideResponse";
