@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 import Footer from "../Footer";
-import Header from "../Header/Header";
+import Header from "../Header";
 
 const Layout: React.FC = ({ children }) => {
   return (
@@ -10,7 +10,7 @@ const Layout: React.FC = ({ children }) => {
         <title>Tebiki | 体系化された学習の「手引き」をシェアするサービス</title>
       </Head>
       <Header />
-      {children}
+      <body>{children}</body>
       <Footer />
     </div>
   );
