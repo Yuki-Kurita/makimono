@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import FailedToCallApiError from "@/errors/FailedToCallApiError";
 import axios, { AxiosError, AxiosInstance } from "axios";
 import GuideResponse from "./GuideResponse";

@@ -7,20 +7,23 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier \"src/**/*.{js,ts,jsx,tsx,scss}\" --write",
-    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "lint": "next lint",
     "test": "jest src/__tests__/.*/*.test.tsx?$",
     "analyze": "cross-env ANALYZE=true next build"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "テスト走らせる"
+      "pre-commit": "yarn lint",
+      "pre-push": "yarn lint"
     }
   },
   "dependencies": {
+    "@apollo/client": "^3.4.4",
+    "@next/eslint-plugin-next": "^11.0.1",
     "@reduxjs/toolkit": "^1.5.1",
     "axios": "^0.21.1",
-    "next": "10.0.8",
+    "graphql": "^15.5.1",
+    "next": "^11.0.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^7.0.5",
@@ -37,9 +40,9 @@
     "autoprefixer": "^10.2.5",
     "cross-env": "^7.0.3",
     "eslint": "^7.22.0",
+    "eslint-config-next": "^11.0.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-react": "^7.22.0",
     "husky": "^5.1.3",
     "jest": "^26.6.3",
     "jest-css-modules": "^2.1.0",
