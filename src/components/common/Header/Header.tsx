@@ -1,4 +1,4 @@
-import Image from "next/image";
+/* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 
 const Header: React.FC = () => {
@@ -14,7 +14,7 @@ const Header: React.FC = () => {
           <div className="flex justify-start lg:w-0 lg:flex-1">
             <a href="#">
               <span className="sr-only">Tebiki</span>
-              <Image
+              <img
                 className="h-8 w-auto sm:h-10 mr-3"
                 src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                 width={200}
@@ -78,7 +78,7 @@ const Header: React.FC = () => {
           <div className="pt-5 pb-6 px-5">
             <div className="flex items-center justify-between">
               <div className="flex items-start justify-start">
-                <Image
+                <img
                   className="h-8 w-auto"
                   src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                   width={400}

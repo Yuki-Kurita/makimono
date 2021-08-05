@@ -10,5 +10,5 @@ export interface Roadmap {
   tags: string[];
   likes: number;
   author: Author;
-  updatedAt: string;
+  updatedAt: Date;
 }

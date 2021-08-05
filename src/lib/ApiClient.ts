@@ -1,9 +1,9 @@
-import FailedToCallApiError from "@/errors/FailedToCallApiError";
+import FailedToCallApiError from "@/domain/errors/FailedToCallApiError";
 import axios, { AxiosError, AxiosInstance } from "axios";
 import GuideResponse from "./GuideResponse";
 import {
   default as RoadmapResponse,
-  default as RoadResponse
+  default as RoadResponse,
 } from "./RoadmapResponse";
 
 class ApiClient {

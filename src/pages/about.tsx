@@ -5,6 +5,7 @@ import { Roadmap } from "@/domain/roadmap/Roadmap";
 import { client } from "@/lib/config/apolloClient";
 import { FIND_CATEGORIES } from "@/lib/graphql/categoryQuery";
 import { FIND_LATEST_ROADMAPS } from "@/lib/graphql/roadmapQuery";
+import { convertToPublishDate } from "@/util/convertToPublishDate";
 import { useQuery } from "@apollo/client";
 import { GetStaticProps, NextPage } from "next";
 
@@ -26,7 +27,7 @@ export const getStaticProps: GetStaticProps = async () => {
 const ListPage: NextPage<ListPageProps> = ({ categories }) => {
   const { data, loading, error } = useQuery(FIND_LATEST_ROADMAPS, {
     variables: {
-      limit: 10,
+      limit: 6,
     },
   });
   if (loading) <h3>loading...</h3>;
@@ -43,22 +44,24 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
         <h1 className="text-3xl font-extrabold mb-4 text-center text-gray-600">
           Latest
         </h1>
-        {roadmaps &&
-          roadmaps.map((roadmap) => (
-            <RoadmapPost
-              {...{
-                id: roadmap.id,
-                title: roadmap.title,
-                itemCount: roadmap.items ? roadmap.items.length : 0,
-                category: roadmap.category.name,
-                tags: roadmap.tags,
-                likes: roadmap.likes,
-                author: roadmap.author,
-                updatedAt: roadmap.updatedAt,
-              }}
-              key={roadmap.id}
-            />
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2">
+          {roadmaps &&
+            roadmaps.map((roadmap) => (
+              <RoadmapPost
+                {...{
+                  id: roadmap.id,
+                  title: roadmap.title,
+                  itemCount: roadmap.items ? roadmap.items.length : 0,
+                  category: roadmap.category.name,
+                  tags: roadmap.tags,
+                  likes: roadmap.likes,
+                  author: roadmap.author,
+                  updatedAt: convertToPublishDate(roadmap.updatedAt),
+                }}
+                key={roadmap.id}
+              />
+            ))}
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {categories.map((category) => category.name)}
         </div>
