@@ -2,7 +2,7 @@ import Layout from "@/components/common/Layout";
 import Post from "@/components/Post";
 import ApiClient from "@/lib/ApiClient";
 import GuideResponse from "@/lib/GuideResponse";
-import { GetStaticProps } from "next";
+import { GetStaticProps, NextPage } from "next";
 import React from "react";
 
 interface ExplorePageProps {
@@ -16,7 +16,7 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-const ExplorePage: React.FC<ExplorePageProps> = ({ guides }) => {
+const ExplorePage: NextPage<ExplorePageProps> = ({ guides }) => {
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">
