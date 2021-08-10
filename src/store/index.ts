@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { roadmapReducer } from "./roadmap/roadmapSlice";
+import { userReducer } from "./user/userSlice";
 
 const store = configureStore({
   reducer: {
     roadmap: roadmapReducer,
+    user: userReducer,
   },
 });
 

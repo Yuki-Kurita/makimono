@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { signInWithSns } from "@/util/signInWithSns";
 import React, { useState } from "react";
 
 const Header: React.FC = () => {
@@ -60,12 +61,14 @@ const Header: React.FC = () => {
             </a>
             <a
               href="#"
+              onClick={() => signInWithSns()}
               className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
             >
               Sign in
             </a>
             <a
               href="#"
+              onClick={() => signInWithSns()}
               className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
             >
               Sign up
@@ -178,7 +181,10 @@ const Header: React.FC = () => {
                         d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
                       />
                     </svg>
-                    <span className="ml-3 text-base font-medium text-gray-900">
+                    <span
+                      className="ml-3 text-base font-medium text-gray-900"
+                      onClick={() => signInWithSns()}
+                    >
                       Sign in
                     </span>
                   </a>
@@ -202,7 +208,10 @@ const Header: React.FC = () => {
                         d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                       />
                     </svg>
-                    <span className="ml-3 text-base font-medium text-gray-900">
+                    <span
+                      className="ml-3 text-base font-medium text-gray-900"
+                      onClick={() => signInWithSns()}
+                    >
                       Sign up
                     </span>
                   </a>

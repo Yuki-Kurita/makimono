@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "..";
 
 interface RoadmapActionType {
   id: number;
@@ -40,4 +39,3 @@ export const roadmapSlice = createSlice({
 
 export const { setRoadmap } = roadmapSlice.actions;
 export const roadmapReducer = roadmapSlice.reducer;
-export const selectRoadmap = (state: RootState) => state.roadmap;
