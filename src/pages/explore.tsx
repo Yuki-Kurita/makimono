@@ -1,5 +1,4 @@
 import Layout from "@/components/common/Layout";
-import Post from "@/components/Post";
 import ApiClient from "@/lib/ApiClient";
 import GuideResponse from "@/lib/GuideResponse";
 import { GetStaticProps, NextPage } from "next";
@@ -23,21 +22,6 @@ const ExplorePage: NextPage<ExplorePageProps> = ({ guides }) => {
         <h1 className="text-2xl font-bold mb-4 text-center">roadmaps</h1>
         <div className="w-full mb-4">
           <div className="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {guides &&
-            guides.map((guide) => (
-              <Post
-                title={guide.title}
-                publisher={guide.publisher}
-                publishedAt={guide.publishedAt}
-                like={guide.like}
-                type={guide.type}
-                category={guide.category}
-                id={guide.id}
-                key={guide.id}
-              />
-            ))}
         </div>
       </main>
     </Layout>

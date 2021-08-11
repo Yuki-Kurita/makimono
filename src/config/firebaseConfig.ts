@@ -15,5 +15,6 @@ if (firebase.apps.length === 0) {
 }
 
 export const auth = firebase.auth();
+export { firebase };
 export const providerTwitter = new firebase.auth.TwitterAuthProvider();
 export const providerGoogle = new firebase.auth.GoogleAuthProvider();

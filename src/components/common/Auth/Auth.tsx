@@ -1,7 +1,7 @@
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/user/userSlice";
 import { useEffect } from "react";
-import { auth } from "./firebaseConfig";
+import { auth } from "../../../config/firebaseConfig";
 
 interface AuthProps {
   children: React.ReactNode;
