@@ -3,5 +3,8 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 });
 
 module.exports = withBundleAnalyzer({
-  // 他の設定
+  // 外部画像
+  images: {
+    domains: ["pbs.twimg.com", "lh3.googleusercontent.com"],
+  },
 });

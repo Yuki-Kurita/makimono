@@ -1,11 +1,5 @@
+import { User } from "@/domain/user/User";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { roadmapSlice } from "../roadmap/roadmapSlice";
-
-interface User {
-  name?: string | null;
-  isLogin: boolean;
-}
-
 interface UserActionType extends User {}
 
 const initialState: User = {
@@ -17,10 +11,15 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserActionType>) => {
-      state = { ...action.payload };
+      state.name = action.payload.name;
+      state.iconUrl = action.payload.iconUrl;
+      state.isLogin = action.payload.isLogin;
+    },
+    clearUser: (state) => {
+      state = initialState;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
-export const userReducer = roadmapSlice.reducer;
+export const { setUser, clearUser } = userSlice.actions;
+export const userReducer = userSlice.reducer;

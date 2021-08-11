@@ -5,12 +5,12 @@ import Header from "../Header";
 
 const Layout: React.FC = ({ children }) => {
   return (
-    <div>
+    <div className="bg-gray-100">
       <Head>
         <title>Tebiki | 体系化された学習の「手引き」をシェアするサービス</title>
       </Head>
       <Header />
-      <body>{children}</body>
+      {children}
       <Footer />
     </div>
   );
