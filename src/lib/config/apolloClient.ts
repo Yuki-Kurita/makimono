@@ -9,8 +9,6 @@ const httpLink = createHttpLink({
 const authLink = setContext(async (_, { headers }) => {
   try {
     const token = await auth.currentUser?.getIdToken(true);
-
-    console.log(`token: ${token}`);
     return {
       headers: {
         ...headers,
