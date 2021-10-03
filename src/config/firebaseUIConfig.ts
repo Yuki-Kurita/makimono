@@ -1,5 +1,3 @@
-import { client } from "@/lib/config/apolloClient";
-import { UPDATE_AUTHOR } from "@/lib/graphql/updateAuthorMutation";
 import { firebase } from "./firebaseConfig";
 
 type UserCredential = {

@@ -1,26 +1,36 @@
 import { auth } from "@/config/firebaseConfig";
-import { client } from "@/lib/config/apolloClient";
-import { UPDATE_AUTHOR } from "@/lib/graphql/updateAuthorMutation";
+import { POST_AUTHOR } from "@/lib/graphql/postAuthorMutation";
 import { useMutation } from "@apollo/client";
 import { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";
-import { useEffect } from "react";
 
 const RedirectPage: NextPage = () => {
   const router = useRouter();
-  const [updateAuthor, { data, loading, error }] = useMutation(UPDATE_AUTHOR, {
-    variables: {
-      author: {
-        name: auth.currentUser?.displayName,
-        iconUrl: auth.currentUser?.photoURL,
-        firebaseId: auth.currentUser?.uid,
-      },
-    },
+  const [updateAuthor, { data, loading, error }] = useMutation(POST_AUTHOR);
+
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      var uid = user.uid;
+      console.log(uid);
+      try {
+        await updateAuthor({
+          variables: {
+            author: {
+              name: user?.displayName,
+              iconUrl: user?.photoURL,
+              firebaseId: user?.uid,
+            },
+          },
+        });
+        router.push("/");
+      } catch (e) {
+        console.error(error);
+      }
+    } else {
+      // TODO: ログインできなかった場合の処理
+    }
   });
-  useEffect(() => {
-    updateAuthor();
-    router.push("/");
-  }, [router, updateAuthor]);
+
   return <div>Ridirect top... </div>;
 };
 
