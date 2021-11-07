@@ -39,7 +39,7 @@ const Header: React.VFC<HeaderProps> = ({
             <Image src="/search.svg" width={25} height={25} alt="search icon" />
             {user?.name ? (
               <>
-                <Link href="/create">
+                <Link href="/roadmaps/new">
                   <a className="flex rounded bg-indigo-600 text-white px-3 py-1">
                     <div>作成する</div>
                     <Image
