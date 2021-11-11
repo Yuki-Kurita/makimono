@@ -1,5 +1,5 @@
 import { auth } from "@/config/firebaseConfig";
-import { POST_AUTHOR } from "@/lib/graphql/postAuthorMutation";
+import { POST_AUTHOR } from "@/lib/graphql/author/postAuthorMutation";
 import { useMutation } from "@apollo/client";
 import { NextPage } from "next";
 import { useRouter } from "next/dist/client/router";

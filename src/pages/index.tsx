@@ -4,7 +4,7 @@ import RoadmapPost from "@/components/RoadmapPost";
 import { Category } from "@/domain/category/Category";
 import { useRoadmapList } from "@/hooks/useRoadmapList";
 import { client } from "@/lib/config/apolloClient";
-import { FIND_CATEGORIES } from "@/lib/graphql/categoryQuery";
+import { FIND_CATEGORIES } from "@/lib/graphql/category/categoryQuery";
 import { convertToPublishDate } from "@/util/convertToPublishDate";
 import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";

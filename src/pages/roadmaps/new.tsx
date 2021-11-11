@@ -1,6 +1,12 @@
 import Layout from "@/components/common/Layout";
 import RoadMapForm from "@/components/RoadMapForm";
 import { FormData } from "@/components/RoadMapForm/RoadMapForm";
+import { UPDATE_ROADMAP } from "@/lib/graphql/roadmap/roadmapMutation";
+import {
+  UpdateRoadmapMutation,
+  UpdateRoadmapMutationVariables,
+} from "@/model/types";
+import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 
@@ -24,8 +30,45 @@ const CreateRoadmapPage: React.VFC = () => {
     name: "roadmaps",
     control,
   });
-  const onSubmit: SubmitHandler<FormData> = (data: FormData) =>
+
+  const [updateRoadmap, { data, loading, error }] = useMutation<
+    UpdateRoadmapMutation,
+    UpdateRoadmapMutationVariables
+  >(UPDATE_ROADMAP);
+
+  const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
     console.log(data);
+    updateRoadmap({
+      variables: {
+        id: "1",
+        roadmap: {
+          author: {
+            firebaseId: "fire",
+            iconUrl: "example.com",
+            id: 1,
+            name: "username",
+          },
+          category: { id: 1, name: "Programming" },
+          items: [
+            {
+              description: "説明",
+              id: 1,
+              links: [
+                {
+                  id: 1,
+                  url: "hoge",
+                },
+              ],
+              title: "タイトル",
+            },
+          ],
+          tags: [{ id: 1, name: "TypeScript" }],
+          title: "roadmap title",
+        },
+      },
+    });
+  };
+
   const canRemoveForm = fields.length >= 2;
   if (errors) {
     console.log(errors?.roadmaps);

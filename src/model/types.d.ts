@@ -74,6 +74,7 @@ export type Mutation = {
   deleteCategory: Scalars['Boolean'];
   deleteRoadmap: Scalars['Boolean'];
   postAuthor: Author;
+  postRoadmap: Scalars['Boolean'];
   updateAuthor: Author;
   updateCategory: Scalars['Boolean'];
   updateRoadmap: Scalars['Boolean'];
@@ -92,6 +93,11 @@ export type MutationDeleteRoadmapArgs = {
 
 export type MutationPostAuthorArgs = {
   author: AuthorInput;
+};
+
+
+export type MutationPostRoadmapArgs = {
+  roadmap: RoadmapInput;
 };
 
 
@@ -163,17 +169,25 @@ export type TagInput = {
   name: Scalars['String'];
 };
 
-export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: number, name: string }> };
-
 export type PostAuthorMutationVariables = Exact<{
   author: AuthorInput;
 }>;
 
 
 export type PostAuthorMutation = { __typename?: 'Mutation', postAuthor: { __typename?: 'Author', id: number, name: string, iconUrl?: string | null | undefined, firebaseId: string } };
+
+export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: number, name: string }> };
+
+export type UpdateRoadmapMutationVariables = Exact<{
+  roadmap: RoadmapInput;
+  id: Scalars['String'];
+}>;
+
+
+export type UpdateRoadmapMutation = { __typename?: 'Mutation', updateRoadmap: boolean };
 
 export type FindRoadmapQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -196,41 +210,6 @@ export type FindRoadmapByCategoryQueryVariables = Exact<{
 export type FindRoadmapByCategoryQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, tags: Array<string | null | undefined>, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
 
 
-export const FindAllCategoryDocument = gql`
-    query findAllCategory {
-  findAllCategories {
-    id
-    name
-  }
-}
-    `;
-
-/**
- * __useFindAllCategoryQuery__
- *
- * To run a query within a React component, call `useFindAllCategoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindAllCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFindAllCategoryQuery({
- *   variables: {
- *   },
- * });
- */
-export function useFindAllCategoryQuery(baseOptions?: Apollo.QueryHookOptions<FindAllCategoryQuery, FindAllCategoryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindAllCategoryQuery, FindAllCategoryQueryVariables>(FindAllCategoryDocument, options);
-      }
-export function useFindAllCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllCategoryQuery, FindAllCategoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindAllCategoryQuery, FindAllCategoryQueryVariables>(FindAllCategoryDocument, options);
-        }
-export type FindAllCategoryQueryHookResult = ReturnType<typeof useFindAllCategoryQuery>;
-export type FindAllCategoryLazyQueryHookResult = ReturnType<typeof useFindAllCategoryLazyQuery>;
-export type FindAllCategoryQueryResult = Apollo.QueryResult<FindAllCategoryQuery, FindAllCategoryQueryVariables>;
 export const PostAuthorDocument = gql`
     mutation postAuthor($author: AuthorInput!) {
   postAuthor(author: $author) {
@@ -267,6 +246,73 @@ export function usePostAuthorMutation(baseOptions?: Apollo.MutationHookOptions<P
 export type PostAuthorMutationHookResult = ReturnType<typeof usePostAuthorMutation>;
 export type PostAuthorMutationResult = Apollo.MutationResult<PostAuthorMutation>;
 export type PostAuthorMutationOptions = Apollo.BaseMutationOptions<PostAuthorMutation, PostAuthorMutationVariables>;
+export const FindAllCategoryDocument = gql`
+    query findAllCategory {
+  findAllCategories {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useFindAllCategoryQuery__
+ *
+ * To run a query within a React component, call `useFindAllCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllCategoryQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllCategoryQuery(baseOptions?: Apollo.QueryHookOptions<FindAllCategoryQuery, FindAllCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllCategoryQuery, FindAllCategoryQueryVariables>(FindAllCategoryDocument, options);
+      }
+export function useFindAllCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllCategoryQuery, FindAllCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllCategoryQuery, FindAllCategoryQueryVariables>(FindAllCategoryDocument, options);
+        }
+export type FindAllCategoryQueryHookResult = ReturnType<typeof useFindAllCategoryQuery>;
+export type FindAllCategoryLazyQueryHookResult = ReturnType<typeof useFindAllCategoryLazyQuery>;
+export type FindAllCategoryQueryResult = Apollo.QueryResult<FindAllCategoryQuery, FindAllCategoryQueryVariables>;
+export const UpdateRoadmapDocument = gql`
+    mutation updateRoadmap($roadmap: RoadmapInput!, $id: String!) {
+  updateRoadmap(roadmap: $roadmap, id: $id)
+}
+    `;
+export type UpdateRoadmapMutationFn = Apollo.MutationFunction<UpdateRoadmapMutation, UpdateRoadmapMutationVariables>;
+
+/**
+ * __useUpdateRoadmapMutation__
+ *
+ * To run a mutation, you first call `useUpdateRoadmapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRoadmapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRoadmapMutation, { data, loading, error }] = useUpdateRoadmapMutation({
+ *   variables: {
+ *      roadmap: // value for 'roadmap'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateRoadmapMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRoadmapMutation, UpdateRoadmapMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRoadmapMutation, UpdateRoadmapMutationVariables>(UpdateRoadmapDocument, options);
+      }
+export type UpdateRoadmapMutationHookResult = ReturnType<typeof useUpdateRoadmapMutation>;
+export type UpdateRoadmapMutationResult = Apollo.MutationResult<UpdateRoadmapMutation>;
+export type UpdateRoadmapMutationOptions = Apollo.BaseMutationOptions<UpdateRoadmapMutation, UpdateRoadmapMutationVariables>;
 export const FindRoadmapDocument = gql`
     query findRoadmap {
   findRoadmap {
@@ -440,11 +486,12 @@ export type LinkFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('deleteCategory' | 'deleteRoadmap' | 'postAuthor' | 'updateAuthor' | 'updateCategory' | 'updateRoadmap' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('deleteCategory' | 'deleteRoadmap' | 'postAuthor' | 'postRoadmap' | 'updateAuthor' | 'updateCategory' | 'updateRoadmap' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	postAuthor?: FieldPolicy<any> | FieldReadFunction<any>,
+	postRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateAuthor?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateRoadmap?: FieldPolicy<any> | FieldReadFunction<any>

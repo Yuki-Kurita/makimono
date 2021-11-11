@@ -1,7 +1,7 @@
 import {
   FIND_LATEST_ROADMAPS,
   FIND_ROADMAPS_BY_CATEGORY,
-} from "@/lib/graphql/roadmapQuery";
+} from "@/lib/graphql/roadmap/roadmapQuery";
 import {
   FindLatestRoadmapQuery,
   FindRoadmapByCategoryQuery,
