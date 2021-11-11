@@ -1,0 +1,16 @@
+overwrite: true
+schema: "http://localhost:3001/graphql"
+documents: "src/lib/graphql/**/*.ts"
+generates:
+  src/model/types.d.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+      - "typescript-apollo-client-helpers"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
+pluckConfig:
+  globalGqlIdentifierName:
+    - gql

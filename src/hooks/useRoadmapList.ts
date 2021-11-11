@@ -1,36 +1,49 @@
-import { Roadmap } from "@/domain/roadmap/Roadmap";
 import {
   FIND_LATEST_ROADMAPS,
   FIND_ROADMAPS_BY_CATEGORY,
 } from "@/lib/graphql/roadmapQuery";
+import {
+  FindLatestRoadmapQuery,
+  FindRoadmapByCategoryQuery,
+  Roadmap,
+} from "@/model/types";
 import { ApolloError, useQuery } from "@apollo/client";
 
 interface RoadmapList {
-  latestRoadmaps?: Roadmap[];
-  programmingRoadmaps?: Roadmap[];
-  artRoadmaps?: Roadmap[];
+  latestRoadmaps?: Roadmap[] | undefined;
+  programmingRoadmaps?: Roadmap[] | undefined;
+  artRoadmaps?: Roadmap[] | undefined;
   loading: boolean;
   errors?: (ApolloError | undefined)[];
 }
 
 export const useRoadmapList = (): RoadmapList => {
-  const latestRoadmapsQuery = useQuery(FIND_LATEST_ROADMAPS, {
-    variables: {
-      limit: 6,
-    },
-  });
-  const programmingRoadmapsQuery = useQuery(FIND_ROADMAPS_BY_CATEGORY, {
-    variables: {
-      categoryId: 1,
-      limit: 6,
-    },
-  });
-  const artRoadmapsQuery = useQuery(FIND_ROADMAPS_BY_CATEGORY, {
-    variables: {
-      categoryId: 5,
-      limit: 6,
-    },
-  });
+  const latestRoadmapsQuery = useQuery<FindLatestRoadmapQuery>(
+    FIND_LATEST_ROADMAPS,
+    {
+      variables: {
+        limit: 6,
+      },
+    }
+  );
+  const programmingRoadmapsQuery = useQuery<FindRoadmapByCategoryQuery>(
+    FIND_ROADMAPS_BY_CATEGORY,
+    {
+      variables: {
+        categoryId: 1,
+        limit: 6,
+      },
+    }
+  );
+  const artRoadmapsQuery = useQuery<FindRoadmapByCategoryQuery>(
+    FIND_ROADMAPS_BY_CATEGORY,
+    {
+      variables: {
+        categoryId: 5,
+        limit: 6,
+      },
+    }
+  );
   if (
     latestRoadmapsQuery.loading ||
     programmingRoadmapsQuery.loading ||
@@ -52,9 +65,14 @@ export const useRoadmapList = (): RoadmapList => {
       ],
     };
   }
-  const latestRoadmaps: Roadmap[] = latestRoadmapsQuery.data?.findRoadmap;
-  const programmingRoadmaps: Roadmap[] =
-    programmingRoadmapsQuery.data?.findRoadmap;
-  const artRoadmaps: Roadmap[] = artRoadmapsQuery.data?.findRoadmap;
+  const latestRoadmaps = latestRoadmapsQuery.data?.findRoadmap as
+    | Roadmap[]
+    | undefined;
+  const programmingRoadmaps = programmingRoadmapsQuery.data?.findRoadmap as
+    | Roadmap[]
+    | undefined;
+  const artRoadmaps = artRoadmapsQuery.data?.findRoadmap as
+    | Roadmap[]
+    | undefined;
   return { latestRoadmaps, programmingRoadmaps, artRoadmaps, loading: false };
 };

@@ -29,7 +29,7 @@ export const FIND_ALL_ROADMAPS = gql`
 `;
 
 export const FIND_LATEST_ROADMAPS = gql`
-  query findRoadmap($limit: Int!) {
+  query findLatestRoadmap($limit: Int!) {
     findRoadmap(limit: $limit, order: DESC, orderBy: UPDATEDAT) {
       id
       title
@@ -49,7 +49,7 @@ export const FIND_LATEST_ROADMAPS = gql`
 `;
 
 export const FIND_ROADMAPS_BY_CATEGORY = gql`
-  query findRoadmap($categoryId: Int!, $limit: Int!) {
+  query findRoadmapByCategory($categoryId: Int!, $limit: Int!) {
     findRoadmap(categoryId: $categoryId, limit: $limit) {
       id
       title
