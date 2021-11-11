@@ -1064,14 +1064,14 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "category",
+            "name": "categoryId",
             "description": null,
             "type": {
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "INPUT_OBJECT",
-                "name": "CategoryInput",
+                "kind": "SCALAR",
+                "name": "Float",
                 "ofType": null
               }
             },

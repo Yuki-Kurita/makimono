@@ -1,6 +1,6 @@
 import Layout from "@/components/common/Layout";
 import RoadmapForm from "@/components/RoadMapForm";
-import { FormData } from "@/components/RoadMapForm/RoadmapInput/RoadMapInput";
+import { FormData } from "@/components/RoadMapForm/RoadmapForm";
 import { useCreateRoadmap } from "@/hooks/useCreateRoadmap";
 import { postRoadmapArgBuilder } from "@/lib/graphql/roadmap/postRoadmapArgBuilder";
 import React from "react";

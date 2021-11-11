@@ -1,12 +1,36 @@
 import { Category } from "@/model/types";
 import React from "react";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import {
+  FieldError,
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import RoadMapForm from "./RoadmapInput";
-import { FormData } from "./RoadmapInput/RoadMapInput";
 
 interface RoadmapFormProps {
   categories: Category[] | undefined;
   onSubmit: SubmitHandler<FormData>;
+}
+
+export interface FormData {
+  roadmaps: {
+    order: number;
+    title: string;
+    url: string;
+    description: string;
+  }[];
+  categoryId: number;
+}
+
+export interface FormError {
+  roadmaps?: {
+    order?: FieldError | undefined;
+    title?: FieldError | undefined;
+    url?: FieldError | undefined;
+    description?: FieldError | undefined;
+  }[];
+  categoryId?: FieldError | undefined;
 }
 
 const RoadmapForm: React.VFC<RoadmapFormProps> = ({ categories, onSubmit }) => {
@@ -29,9 +53,16 @@ const RoadmapForm: React.VFC<RoadmapFormProps> = ({ categories, onSubmit }) => {
 
   return (
     <form className="container mx-auto">
-      <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+      <select
+        className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        {...register("categoryId")}
+      >
         {categories?.map((it) => {
-          return <option key={it.id}>{it.name}</option>;
+          return (
+            <option key={it.id} value={it.id}>
+              {it.name}
+            </option>
+          );
         })}
       </select>
       {fields.map((field, index) => (

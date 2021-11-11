@@ -1,4 +1,4 @@
-import { FormData } from "@/components/RoadMapForm/RoadmapInput/RoadMapInput";
+import { FormData } from "@/components/RoadMapForm/RoadmapForm";
 import { PostRoadmapMutationVariables } from "@/model/types";
 
 export const postRoadmapArgBuilder = (
@@ -6,7 +6,7 @@ export const postRoadmapArgBuilder = (
 ): PostRoadmapMutationVariables => {
   return {
     roadmap: {
-      category: { id: 1, name: "Programming" },
+      categoryId: Number(formData.categoryId),
       items: formData.roadmaps.map((it) => ({
         id: it.order,
         description: it.description,

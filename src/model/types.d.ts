@@ -146,7 +146,7 @@ export type Roadmap = {
 };
 
 export type RoadmapInput = {
-  category: CategoryInput;
+  categoryId: Scalars['Float'];
   items: Array<ItemInput>;
   title: Scalars['String'];
 };

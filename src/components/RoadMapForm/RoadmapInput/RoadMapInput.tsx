@@ -1,5 +1,6 @@
 import React from "react";
-import { FieldError, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
+import { FormData, FormError } from "../RoadmapForm";
 import { DotButton } from "./DotButton";
 import ErrorMessages from "./ErrorMessages";
 
@@ -10,26 +11,6 @@ interface RoadmapInputProps {
   canRemoveForm: boolean;
   remove: (index?: number | number[] | undefined) => void;
   errors: FormError;
-}
-
-export interface FormData {
-  roadmaps: {
-    order: number;
-    title: string;
-    url: string;
-    description: string;
-  }[];
-}
-
-export interface FormError {
-  roadmaps?:
-    | {
-        order?: FieldError | undefined;
-        title?: FieldError | undefined;
-        url?: FieldError | undefined;
-        description?: FieldError | undefined;
-      }[]
-    | undefined;
 }
 
 const RoadmapInput: React.FC<RoadmapInputProps> = ({
