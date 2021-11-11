@@ -1,4 +1,4 @@
-import { FormError } from "../RoadMapForm";
+import { FormError } from "../RoadMapInput";
 
 interface ErrorMessagesProps {
   errors: FormError;

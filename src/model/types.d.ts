@@ -141,16 +141,13 @@ export type Roadmap = {
   id: Scalars['String'];
   items: Array<Item>;
   likes: Scalars['Int'];
-  tags: Array<Maybe<Scalars['String']>>;
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type RoadmapInput = {
-  author: AuthorInput;
   category: CategoryInput;
   items: Array<ItemInput>;
-  tags: Array<Maybe<TagInput>>;
   title: Scalars['String'];
 };
 
@@ -163,11 +160,6 @@ export enum RoadmapOrderBy {
   Likes = 'LIKES',
   Updatedat = 'UPDATEDAT'
 }
-
-export type TagInput = {
-  id: Scalars['Float'];
-  name: Scalars['String'];
-};
 
 export type PostAuthorMutationVariables = Exact<{
   author: AuthorInput;
@@ -189,17 +181,24 @@ export type UpdateRoadmapMutationVariables = Exact<{
 
 export type UpdateRoadmapMutation = { __typename?: 'Mutation', updateRoadmap: boolean };
 
+export type PostRoadmapMutationVariables = Exact<{
+  roadmap: RoadmapInput;
+}>;
+
+
+export type PostRoadmapMutation = { __typename?: 'Mutation', postRoadmap: boolean };
+
 export type FindRoadmapQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindRoadmapQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, tags: Array<string | null | undefined>, likes: number, updatedAt: any, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null | undefined, links: Array<{ __typename?: 'Link', url: string }> }>, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
+export type FindRoadmapQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null | undefined, links: Array<{ __typename?: 'Link', url: string }> }>, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
 
 export type FindLatestRoadmapQueryVariables = Exact<{
   limit: Scalars['Int'];
 }>;
 
 
-export type FindLatestRoadmapQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, tags: Array<string | null | undefined>, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
+export type FindLatestRoadmapQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
 
 export type FindRoadmapByCategoryQueryVariables = Exact<{
   categoryId: Scalars['Int'];
@@ -207,7 +206,7 @@ export type FindRoadmapByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type FindRoadmapByCategoryQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, tags: Array<string | null | undefined>, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
+export type FindRoadmapByCategoryQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
 
 
 export const PostAuthorDocument = gql`
@@ -313,6 +312,37 @@ export function useUpdateRoadmapMutation(baseOptions?: Apollo.MutationHookOption
 export type UpdateRoadmapMutationHookResult = ReturnType<typeof useUpdateRoadmapMutation>;
 export type UpdateRoadmapMutationResult = Apollo.MutationResult<UpdateRoadmapMutation>;
 export type UpdateRoadmapMutationOptions = Apollo.BaseMutationOptions<UpdateRoadmapMutation, UpdateRoadmapMutationVariables>;
+export const PostRoadmapDocument = gql`
+    mutation postRoadmap($roadmap: RoadmapInput!) {
+  postRoadmap(roadmap: $roadmap)
+}
+    `;
+export type PostRoadmapMutationFn = Apollo.MutationFunction<PostRoadmapMutation, PostRoadmapMutationVariables>;
+
+/**
+ * __usePostRoadmapMutation__
+ *
+ * To run a mutation, you first call `usePostRoadmapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePostRoadmapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [postRoadmapMutation, { data, loading, error }] = usePostRoadmapMutation({
+ *   variables: {
+ *      roadmap: // value for 'roadmap'
+ *   },
+ * });
+ */
+export function usePostRoadmapMutation(baseOptions?: Apollo.MutationHookOptions<PostRoadmapMutation, PostRoadmapMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PostRoadmapMutation, PostRoadmapMutationVariables>(PostRoadmapDocument, options);
+      }
+export type PostRoadmapMutationHookResult = ReturnType<typeof usePostRoadmapMutation>;
+export type PostRoadmapMutationResult = Apollo.MutationResult<PostRoadmapMutation>;
+export type PostRoadmapMutationOptions = Apollo.BaseMutationOptions<PostRoadmapMutation, PostRoadmapMutationVariables>;
 export const FindRoadmapDocument = gql`
     query findRoadmap {
   findRoadmap {
@@ -330,7 +360,6 @@ export const FindRoadmapDocument = gql`
       id
       name
     }
-    tags
     likes
     author {
       name
@@ -376,7 +405,6 @@ export const FindLatestRoadmapDocument = gql`
       id
       name
     }
-    tags
     likes
     author {
       name
@@ -423,7 +451,6 @@ export const FindRoadmapByCategoryDocument = gql`
       id
       name
     }
-    tags
     likes
     author {
       name
@@ -501,14 +528,13 @@ export type QueryFieldPolicy = {
 	findAllCategories?: FieldPolicy<any> | FieldReadFunction<any>,
 	findRoadmap?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type RoadmapKeySpecifier = ('author' | 'category' | 'id' | 'items' | 'likes' | 'tags' | 'title' | 'updatedAt' | RoadmapKeySpecifier)[];
+export type RoadmapKeySpecifier = ('author' | 'category' | 'id' | 'items' | 'likes' | 'title' | 'updatedAt' | RoadmapKeySpecifier)[];
 export type RoadmapFieldPolicy = {
 	author?: FieldPolicy<any> | FieldReadFunction<any>,
 	category?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
 	likes?: FieldPolicy<any> | FieldReadFunction<any>,
-	tags?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	updatedAt?: FieldPolicy<any> | FieldReadFunction<any>
 };

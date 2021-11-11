@@ -17,7 +17,6 @@ export const FIND_ALL_ROADMAPS = gql`
         id
         name
       }
-      tags
       likes
       author {
         name
@@ -37,7 +36,6 @@ export const FIND_LATEST_ROADMAPS = gql`
         id
         name
       }
-      tags
       likes
       author {
         name
@@ -57,7 +55,6 @@ export const FIND_ROADMAPS_BY_CATEGORY = gql`
         id
         name
       }
-      tags
       likes
       author {
         name

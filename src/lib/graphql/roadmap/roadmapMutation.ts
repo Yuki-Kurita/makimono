@@ -5,3 +5,9 @@ export const UPDATE_ROADMAP = gql`
     updateRoadmap(roadmap: $roadmap, id: $id)
   }
 `;
+
+export const POST_ROADMAP = gql`
+  mutation postRoadmap($roadmap: RoadmapInput!) {
+    postRoadmap(roadmap: $roadmap)
+  }
+`;
