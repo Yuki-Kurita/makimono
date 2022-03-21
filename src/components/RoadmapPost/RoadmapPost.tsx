@@ -8,7 +8,6 @@ interface RoadmapPostProps {
   title: string;
   itemCount: number;
   category: string;
-  tags: string[];
   likes: number;
   author: Author;
   updatedAt: string;
@@ -19,7 +18,6 @@ export const RoadmapPost: React.VFC<RoadmapPostProps> = ({
   title,
   itemCount,
   category,
-  tags,
   likes,
   author,
   updatedAt,
@@ -35,12 +33,6 @@ export const RoadmapPost: React.VFC<RoadmapPostProps> = ({
         <div>
           <Image src="/category.svg" width={20} height={20} alt={"category"} />
           <span className="mr-0.5 ml-0.5 align-top">{category}</span>
-        </div>
-        <div className="ml-2">
-          <Image src="/tag.svg" width={20} height={20} alt={"tag"} />
-          <span className="ml-0.5 align-top">
-            {tags.map((tag) => `${tag} `)}
-          </span>
         </div>
         <div className="ml-2">
           <Image src="/like.svg" width={20} height={20} alt={"like"} />

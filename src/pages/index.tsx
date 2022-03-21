@@ -1,6 +1,6 @@
 import CategoryTips from "@/components/CategoryTips";
 import Layout from "@/components/common/Layout";
-import RoadmapPost from "@/components/RoadmapPost";
+import { RoadmapPost } from "@/components/RoadmapPost/RoadmapPost";
 import { Category } from "@/domain/category/Category";
 import { useRoadmapList } from "@/hooks/useRoadmapList";
 import { client } from "@/lib/config/apolloClient";
@@ -50,7 +50,6 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
                     title: roadmap.title,
                     itemCount: roadmap.items ? roadmap.items.length : 0,
                     category: roadmap.category.name,
-                    tags: roadmap.tags,
                     likes: roadmap.likes,
                     author: roadmap.author,
                     updatedAt: convertToPublishDate(roadmap.updatedAt),
@@ -62,7 +61,7 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
         </div>
         <Link href="/roadmaps/latest">
           <a className="block text-md font-extrabold mt-4 mb-2 mx-auto px-4 py-2 w-64 rounded-lg shadow text-center text-gray-600">
-            最新のロードマップを見る→
+            最新のロードマップを見る→
           </a>
         </Link>
         <div className="mt-16">
@@ -78,7 +77,6 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
                     title: roadmap.title,
                     itemCount: roadmap.items ? roadmap.items.length : 0,
                     category: roadmap.category.name,
-                    tags: roadmap.tags,
                     likes: roadmap.likes,
                     author: roadmap.author,
                     updatedAt: convertToPublishDate(roadmap.updatedAt),
@@ -89,7 +87,7 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
           </div>
           <Link href="/roadmaps/ranking">
             <a className="block text-md font-extrabold mt-4 mb-2 mx-auto px-4 py-2 w-64 rounded-lg shadow text-center text-gray-600">
-              人気のロードマップを見る→
+              人気のロードマップを見る→
             </a>
           </Link>
         </div>
@@ -111,7 +109,6 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
                         title: roadmap.title,
                         itemCount: roadmap.items ? roadmap.items.length : 0,
                         category: roadmap.category.name,
-                        tags: roadmap.tags,
                         likes: roadmap.likes,
                         author: roadmap.author,
                         updatedAt: convertToPublishDate(roadmap.updatedAt),
@@ -121,7 +118,7 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
                   ))}
                 <Link href="/roadmaps/categories/programming">
                   <a className="block text-md font-extrabold mt-4 mb-2 mx-auto px-4 py-2 w-64 rounded-lg shadow text-center text-gray-600">
-                    このカテゴリのロードマップを見る→
+                    このカテゴリのロードマップを見る→
                   </a>
                 </Link>
               </div>
@@ -137,7 +134,6 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
                         title: roadmap.title,
                         itemCount: roadmap.items ? roadmap.items.length : 0,
                         category: roadmap.category.name,
-                        tags: roadmap.tags,
                         likes: roadmap.likes,
                         author: roadmap.author,
                         updatedAt: convertToPublishDate(roadmap.updatedAt),
@@ -147,7 +143,7 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
                   ))}
                 <Link href="/roadmaps/categories/art">
                   <a className="block text-md font-extrabold mt-4 mb-2 mx-auto px-4 py-2 w-64 rounded-lg shadow text-center text-gray-600">
-                    このカテゴリのロードマップを見る→
+                    このカテゴリのロードマップを見る→
                   </a>
                 </Link>
               </div>
