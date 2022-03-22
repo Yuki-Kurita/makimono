@@ -1,11 +1,17 @@
 import CategoryTips from "@/components/CategoryTips";
 import Layout from "@/components/common/Layout";
 import { RoadmapPost } from "@/components/RoadmapPost/RoadmapPost";
-import { Category } from "@/domain/category/Category";
-import { useRoadmapList } from "@/hooks/useRoadmapList";
 import { client } from "@/lib/config/apolloClient";
 import { FIND_ALL_CATEGORIES } from "@/lib/graphql/category/categoryQuery";
-import { convertToPublishDate } from "@/util/convertToPublishDate";
+import { FETCH_FOR_TOP } from "@/lib/graphql/top/fetchForTopQuery";
+import {
+  Category,
+  FetchForTopQuery,
+  FetchForTopQueryVariables,
+  FindAllCategoryQuery,
+  FindAllCategoryQueryVariables,
+} from "@/model/types";
+import { useQuery } from "@apollo/client";
 import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 
@@ -14,9 +20,13 @@ interface ListPageProps {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await client.query({
+  const { data, error } = await client.query<
+    FindAllCategoryQuery,
+    FindAllCategoryQueryVariables
+  >({
     query: FIND_ALL_CATEGORIES,
   });
+  // TODO: error handling
   return {
     props: {
       categories: data.findAllCategories,
@@ -25,13 +35,16 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const ListPage: NextPage<ListPageProps> = ({ categories }) => {
-  const {
-    latestRoadmaps,
-    programmingRoadmaps,
-    artRoadmaps,
-    loading,
-    errors,
-  } = useRoadmapList();
+  const { data, loading, error } = useQuery<
+    FetchForTopQuery,
+    FetchForTopQueryVariables
+  >(FETCH_FOR_TOP, {
+    variables: {
+      limit: 6,
+    },
+  });
+
+  console.log(data);
   if (loading) <h3>loading...</h3>;
 
   return (
@@ -42,20 +55,9 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
             Latest
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2">
-            {latestRoadmaps &&
-              latestRoadmaps.map((roadmap) => (
-                <RoadmapPost
-                  {...{
-                    id: roadmap.id,
-                    title: roadmap.title,
-                    itemCount: roadmap.items ? roadmap.items.length : 0,
-                    category: roadmap.category.name,
-                    likes: roadmap.likes,
-                    author: roadmap.author,
-                    updatedAt: convertToPublishDate(roadmap.updatedAt),
-                  }}
-                  key={roadmap.id}
-                />
+            {data?.findLatestRoadmap &&
+              data?.findLatestRoadmap.map((roadmap) => (
+                <RoadmapPost roadmap={roadmap} key={roadmap.id} />
               ))}
           </div>
         </div>
@@ -69,20 +71,9 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
             Weekly Ranking
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2">
-            {latestRoadmaps &&
-              latestRoadmaps.map((roadmap) => (
-                <RoadmapPost
-                  {...{
-                    id: roadmap.id,
-                    title: roadmap.title,
-                    itemCount: roadmap.items ? roadmap.items.length : 0,
-                    category: roadmap.category.name,
-                    likes: roadmap.likes,
-                    author: roadmap.author,
-                    updatedAt: convertToPublishDate(roadmap.updatedAt),
-                  }}
-                  key={roadmap.id}
-                />
+            {data?.findLatestRoadmap &&
+              data?.findLatestRoadmap.map((roadmap) => (
+                <RoadmapPost roadmap={roadmap} key={roadmap.id} />
               ))}
           </div>
           <Link href="/roadmaps/ranking">
@@ -101,20 +92,9 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
                 <h2 className="text-xl font-extrabold mt-4 mb-4 text-center text-gray-500">
                   Programming
                 </h2>
-                {programmingRoadmaps &&
-                  programmingRoadmaps.map((roadmap) => (
-                    <RoadmapPost
-                      {...{
-                        id: roadmap.id,
-                        title: roadmap.title,
-                        itemCount: roadmap.items ? roadmap.items.length : 0,
-                        category: roadmap.category.name,
-                        likes: roadmap.likes,
-                        author: roadmap.author,
-                        updatedAt: convertToPublishDate(roadmap.updatedAt),
-                      }}
-                      key={roadmap.id}
-                    />
+                {data?.findProgrammingRoadmap &&
+                  data?.findProgrammingRoadmap.map((roadmap) => (
+                    <RoadmapPost roadmap={roadmap} key={roadmap.id} />
                   ))}
                 <Link href="/roadmaps/categories/programming">
                   <a className="block text-md font-extrabold mt-4 mb-2 mx-auto px-4 py-2 w-64 rounded-lg shadow text-center text-gray-600">
@@ -126,20 +106,9 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
                 <h2 className="text-xl font-extrabold mt-4 mb-4 text-center text-gray-500">
                   Art
                 </h2>
-                {artRoadmaps &&
-                  artRoadmaps.map((roadmap) => (
-                    <RoadmapPost
-                      {...{
-                        id: roadmap.id,
-                        title: roadmap.title,
-                        itemCount: roadmap.items ? roadmap.items.length : 0,
-                        category: roadmap.category.name,
-                        likes: roadmap.likes,
-                        author: roadmap.author,
-                        updatedAt: convertToPublishDate(roadmap.updatedAt),
-                      }}
-                      key={roadmap.id}
-                    />
+                {data?.findArtRoadmap &&
+                  data?.findArtRoadmap.map((roadmap) => (
+                    <RoadmapPost roadmap={roadmap} key={roadmap.id} />
                   ))}
                 <Link href="/roadmaps/categories/art">
                   <a className="block text-md font-extrabold mt-4 mb-2 mx-auto px-4 py-2 w-64 rounded-lg shadow text-center text-gray-600">

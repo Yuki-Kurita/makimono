@@ -173,6 +173,10 @@ export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: number, name: string }> };
 
+export type RoadmapFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } };
+
+export type RoadmapAllFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null | undefined, links: Array<{ __typename?: 'Link', url: string }> }>, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } };
+
 export type UpdateRoadmapMutationVariables = Exact<{
   roadmap: RoadmapInput;
   id: Scalars['String'];
@@ -188,27 +192,56 @@ export type PostRoadmapMutationVariables = Exact<{
 
 export type PostRoadmapMutation = { __typename?: 'Mutation', postRoadmap: boolean };
 
-export type FindRoadmapQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FindRoadmapQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null | undefined, links: Array<{ __typename?: 'Link', url: string }> }>, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
-
-export type FindLatestRoadmapQueryVariables = Exact<{
+export type FetchForTopQueryVariables = Exact<{
   limit: Scalars['Int'];
 }>;
 
 
-export type FindLatestRoadmapQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
+export type FetchForTopQuery = { __typename?: 'Query', findLatestRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }>, findProgrammingRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }>, findArtRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
 
-export type FindRoadmapByCategoryQueryVariables = Exact<{
-  categoryId: Scalars['Int'];
-  limit: Scalars['Int'];
-}>;
-
-
-export type FindRoadmapByCategoryQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
-
-
+export const RoadmapFieldsFragmentDoc = gql`
+    fragment RoadmapFields on Roadmap {
+  id
+  title
+  category {
+    id
+    name
+  }
+  items {
+    id
+  }
+  likes
+  author {
+    name
+    iconUrl
+  }
+  updatedAt
+}
+    `;
+export const RoadmapAllFieldsFragmentDoc = gql`
+    fragment RoadmapAllFields on Roadmap {
+  id
+  title
+  items {
+    id
+    title
+    description
+    links {
+      url
+    }
+  }
+  category {
+    id
+    name
+  }
+  likes
+  author {
+    name
+    iconUrl
+  }
+  updatedAt
+}
+    `;
 export const PostAuthorDocument = gql`
     mutation postAuthor($author: AuthorInput!) {
   postAuthor(author: $author) {
@@ -343,152 +376,47 @@ export function usePostRoadmapMutation(baseOptions?: Apollo.MutationHookOptions<
 export type PostRoadmapMutationHookResult = ReturnType<typeof usePostRoadmapMutation>;
 export type PostRoadmapMutationResult = Apollo.MutationResult<PostRoadmapMutation>;
 export type PostRoadmapMutationOptions = Apollo.BaseMutationOptions<PostRoadmapMutation, PostRoadmapMutationVariables>;
-export const FindRoadmapDocument = gql`
-    query findRoadmap {
-  findRoadmap {
-    id
-    title
-    items {
-      id
-      title
-      description
-      links {
-        url
-      }
-    }
-    category {
-      id
-      name
-    }
-    likes
-    author {
-      name
-      iconUrl
-    }
-    updatedAt
+export const FetchForTopDocument = gql`
+    query fetchForTop($limit: Int!) {
+  findLatestRoadmap: findRoadmap(limit: $limit, order: DESC, orderBy: UPDATEDAT) {
+    ...RoadmapFields
+  }
+  findProgrammingRoadmap: findRoadmap(limit: $limit, categoryId: 1) {
+    ...RoadmapFields
+  }
+  findArtRoadmap: findRoadmap(limit: $limit, categoryId: 6) {
+    ...RoadmapFields
   }
 }
-    `;
+    ${RoadmapFieldsFragmentDoc}`;
 
 /**
- * __useFindRoadmapQuery__
+ * __useFetchForTopQuery__
  *
- * To run a query within a React component, call `useFindRoadmapQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindRoadmapQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFetchForTopQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchForTopQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFindRoadmapQuery({
- *   variables: {
- *   },
- * });
- */
-export function useFindRoadmapQuery(baseOptions?: Apollo.QueryHookOptions<FindRoadmapQuery, FindRoadmapQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindRoadmapQuery, FindRoadmapQueryVariables>(FindRoadmapDocument, options);
-      }
-export function useFindRoadmapLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRoadmapQuery, FindRoadmapQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindRoadmapQuery, FindRoadmapQueryVariables>(FindRoadmapDocument, options);
-        }
-export type FindRoadmapQueryHookResult = ReturnType<typeof useFindRoadmapQuery>;
-export type FindRoadmapLazyQueryHookResult = ReturnType<typeof useFindRoadmapLazyQuery>;
-export type FindRoadmapQueryResult = Apollo.QueryResult<FindRoadmapQuery, FindRoadmapQueryVariables>;
-export const FindLatestRoadmapDocument = gql`
-    query findLatestRoadmap($limit: Int!) {
-  findRoadmap(limit: $limit, order: DESC, orderBy: UPDATEDAT) {
-    id
-    title
-    category {
-      id
-      name
-    }
-    likes
-    author {
-      name
-      iconUrl
-    }
-    updatedAt
-  }
-}
-    `;
-
-/**
- * __useFindLatestRoadmapQuery__
- *
- * To run a query within a React component, call `useFindLatestRoadmapQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindLatestRoadmapQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFindLatestRoadmapQuery({
+ * const { data, loading, error } = useFetchForTopQuery({
  *   variables: {
  *      limit: // value for 'limit'
  *   },
  * });
  */
-export function useFindLatestRoadmapQuery(baseOptions: Apollo.QueryHookOptions<FindLatestRoadmapQuery, FindLatestRoadmapQueryVariables>) {
+export function useFetchForTopQuery(baseOptions: Apollo.QueryHookOptions<FetchForTopQuery, FetchForTopQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindLatestRoadmapQuery, FindLatestRoadmapQueryVariables>(FindLatestRoadmapDocument, options);
+        return Apollo.useQuery<FetchForTopQuery, FetchForTopQueryVariables>(FetchForTopDocument, options);
       }
-export function useFindLatestRoadmapLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindLatestRoadmapQuery, FindLatestRoadmapQueryVariables>) {
+export function useFetchForTopLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchForTopQuery, FetchForTopQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindLatestRoadmapQuery, FindLatestRoadmapQueryVariables>(FindLatestRoadmapDocument, options);
+          return Apollo.useLazyQuery<FetchForTopQuery, FetchForTopQueryVariables>(FetchForTopDocument, options);
         }
-export type FindLatestRoadmapQueryHookResult = ReturnType<typeof useFindLatestRoadmapQuery>;
-export type FindLatestRoadmapLazyQueryHookResult = ReturnType<typeof useFindLatestRoadmapLazyQuery>;
-export type FindLatestRoadmapQueryResult = Apollo.QueryResult<FindLatestRoadmapQuery, FindLatestRoadmapQueryVariables>;
-export const FindRoadmapByCategoryDocument = gql`
-    query findRoadmapByCategory($categoryId: Int!, $limit: Int!) {
-  findRoadmap(categoryId: $categoryId, limit: $limit) {
-    id
-    title
-    category {
-      id
-      name
-    }
-    likes
-    author {
-      name
-      iconUrl
-    }
-    updatedAt
-  }
-}
-    `;
-
-/**
- * __useFindRoadmapByCategoryQuery__
- *
- * To run a query within a React component, call `useFindRoadmapByCategoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindRoadmapByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFindRoadmapByCategoryQuery({
- *   variables: {
- *      categoryId: // value for 'categoryId'
- *      limit: // value for 'limit'
- *   },
- * });
- */
-export function useFindRoadmapByCategoryQuery(baseOptions: Apollo.QueryHookOptions<FindRoadmapByCategoryQuery, FindRoadmapByCategoryQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindRoadmapByCategoryQuery, FindRoadmapByCategoryQueryVariables>(FindRoadmapByCategoryDocument, options);
-      }
-export function useFindRoadmapByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRoadmapByCategoryQuery, FindRoadmapByCategoryQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindRoadmapByCategoryQuery, FindRoadmapByCategoryQueryVariables>(FindRoadmapByCategoryDocument, options);
-        }
-export type FindRoadmapByCategoryQueryHookResult = ReturnType<typeof useFindRoadmapByCategoryQuery>;
-export type FindRoadmapByCategoryLazyQueryHookResult = ReturnType<typeof useFindRoadmapByCategoryLazyQuery>;
-export type FindRoadmapByCategoryQueryResult = Apollo.QueryResult<FindRoadmapByCategoryQuery, FindRoadmapByCategoryQueryVariables>;
+export type FetchForTopQueryHookResult = ReturnType<typeof useFetchForTopQuery>;
+export type FetchForTopLazyQueryHookResult = ReturnType<typeof useFetchForTopLazyQuery>;
+export type FetchForTopQueryResult = Apollo.QueryResult<FetchForTopQuery, FetchForTopQueryVariables>;
 export type AuthorKeySpecifier = ('firebaseId' | 'iconUrl' | 'id' | 'name' | AuthorKeySpecifier)[];
 export type AuthorFieldPolicy = {
 	firebaseId?: FieldPolicy<any> | FieldReadFunction<any>,
