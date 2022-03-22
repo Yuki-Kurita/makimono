@@ -1,4 +1,4 @@
-import { FormError } from "../RoadMapInput";
+import { FormError } from "../../RoadmapForm";
 
 interface ErrorMessagesProps {
   errors: FormError;
@@ -18,7 +18,11 @@ const ErrorMessages: React.VFC<ErrorMessagesProps> = ({ errors, index }) => {
   // }
   return (
     <aside>
-      <ul></ul>
+      <ul>
+        {errors.roadmaps?.map((error, i) => (
+          <li key={i}>{error.url?.type}</li>
+        ))}
+      </ul>
     </aside>
   );
 };

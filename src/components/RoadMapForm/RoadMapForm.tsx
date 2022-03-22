@@ -6,7 +6,7 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
-import RoadMapForm from "./RoadmapInput";
+import { RoadmapInput } from "./RoadmapInput/RoadMapInput";
 
 interface RoadmapFormProps {
   categories: Category[] | undefined;
@@ -33,7 +33,10 @@ export interface FormError {
   categoryId?: FieldError | undefined;
 }
 
-const RoadmapForm: React.VFC<RoadmapFormProps> = ({ categories, onSubmit }) => {
+export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
+  categories,
+  onSubmit,
+}) => {
   const {
     register,
     handleSubmit,
@@ -50,7 +53,6 @@ const RoadmapForm: React.VFC<RoadmapFormProps> = ({ categories, onSubmit }) => {
     control,
   });
   const canRemoveForm = fields.length >= 2;
-
   return (
     <form className="container mx-auto">
       <select
@@ -66,7 +68,7 @@ const RoadmapForm: React.VFC<RoadmapFormProps> = ({ categories, onSubmit }) => {
         })}
       </select>
       {fields.map((field, index) => (
-        <RoadMapForm
+        <RoadmapInput
           id={field.id}
           index={index}
           key={field.id}
@@ -103,5 +105,3 @@ const RoadmapForm: React.VFC<RoadmapFormProps> = ({ categories, onSubmit }) => {
     </form>
   );
 };
-
-export default RoadmapForm;

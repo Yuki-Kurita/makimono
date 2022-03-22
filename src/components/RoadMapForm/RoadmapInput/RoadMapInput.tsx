@@ -13,7 +13,7 @@ interface RoadmapInputProps {
   errors: FormError;
 }
 
-const RoadmapInput: React.FC<RoadmapInputProps> = ({
+export const RoadmapInput: React.FC<RoadmapInputProps> = ({
   id,
   index,
   register,
@@ -71,5 +71,3 @@ const RoadmapInput: React.FC<RoadmapInputProps> = ({
     </div>
   );
 };
-
-export default RoadmapInput;
