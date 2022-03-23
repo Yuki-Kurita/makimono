@@ -1,6 +1,7 @@
 import { auth } from "@/config/firebaseConfig";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setUser } from "@/store/user/userSlice";
+import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 
 interface AuthProps {
@@ -26,7 +27,7 @@ const Auth: React.VFC<AuthProps> = ({ children }) => {
   }, [user.name]);
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    onAuthStateChanged(auth, (user) => {
       dispatch(
         setUser({
           name: user?.displayName,

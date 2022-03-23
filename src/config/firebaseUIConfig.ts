@@ -1,10 +1,11 @@
-import { firebase } from "./firebaseConfig";
+import { AdditionalUserInfo, AuthCredential, User } from "firebase/auth";
+import { providerGoogle, providerTwitter } from "./firebaseConfig";
 
 type UserCredential = {
-  additionalUserInfo?: firebase.auth.AdditionalUserInfo | null;
-  credential: firebase.auth.AuthCredential | null;
+  additionalUserInfo?: AdditionalUserInfo | null;
+  credential: AuthCredential | null;
   operationType?: string | null;
-  user: firebase.User | null;
+  user: User | null;
 };
 
 // https://github.com/firebase/firebaseui-web
@@ -13,10 +14,7 @@ export const uiConfig = {
   signInSuccessUrl: "/redirect",
   tosUrl: "/about",
   privacyPolicyUrl: "/explore",
-  signInOptions: [
-    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-  ],
+  signInOptions: [providerTwitter.providerId, providerGoogle.providerId],
   // callbacks: {
   //   signInSuccessWithAuthResult: (authResult: UserCredential) => {
   //     // 新規ユーザー登録

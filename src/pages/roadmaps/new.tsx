@@ -53,7 +53,7 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
       <main className="bg-gray-100 border-b py-8">
         {data?.postRoadmap ? (
           <>ロードマップ作成完了</>
-        ) : true ? (
+        ) : loading ? (
           <Loading />
         ) : (
           <>

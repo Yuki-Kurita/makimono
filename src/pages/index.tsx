@@ -44,7 +44,6 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
     },
   });
 
-  console.log(data);
   if (loading) <h3>loading...</h3>;
 
   return (
