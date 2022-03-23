@@ -1,4 +1,5 @@
 import Layout from "@/components/common/Layout";
+import { Loading } from "@/components/common/Loading";
 import { FormData, RoadmapForm } from "@/components/RoadMapForm/RoadmapForm";
 import { client } from "@/lib/config/apolloClient";
 import { FIND_ALL_CATEGORIES } from "@/lib/graphql/category/categoryQuery";
@@ -13,7 +14,7 @@ import {
 } from "@/model/types";
 import { useMutation } from "@apollo/client";
 import { GetStaticProps, NextPage } from "next";
-import React, { useState } from "react";
+import React from "react";
 import { SubmitHandler } from "react-hook-form";
 
 interface NewPageProps {
@@ -36,7 +37,6 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
-  const [isCreated, setIsCreated] = useState(false);
   const [postRoadmap, { data, loading, error }] = useMutation<
     PostRoadmapMutation,
     PostRoadmapMutationVariables
@@ -46,17 +46,15 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
     const args = postRoadmapArgBuilder(data);
     postRoadmap({
       variables: args,
-      onCompleted() {
-        console.log("completed");
-        setIsCreated(true);
-      },
     });
   };
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">
-        {isCreated ? (
+        {data?.postRoadmap ? (
           <>ロードマップ作成完了</>
+        ) : true ? (
+          <Loading />
         ) : (
           <>
             <h1 className="text-2xl font-bold mb-4 text-center">
