@@ -63,7 +63,7 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">
-        {!data?.postRoadmap ? (
+        {data?.postRoadmap ? (
           <div className="flex justify-center">
             <Card>
               <div className="w-112">
