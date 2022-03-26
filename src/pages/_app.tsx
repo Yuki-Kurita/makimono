@@ -2,7 +2,7 @@ import Auth from "@/components/common/Auth";
 import { client } from "@/lib/config/apolloClient";
 import store from "@/store";
 import { ApolloProvider } from "@apollo/client";
-import { AppProps } from "next/dist/next-server/lib/router/router";
+import { AppProps } from "next/app";
 import Head from "next/head";
 import React from "react";
 import { Provider } from "react-redux";

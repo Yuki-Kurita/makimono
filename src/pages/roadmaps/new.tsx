@@ -55,14 +55,15 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
   };
 
   const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
+    console.log(data);
     const args = postRoadmapArgBuilder(data);
-    postRoadmap({
-      variables: args,
-    });
+    // postRoadmap({
+    //   variables: args,
+    // });
   };
   return (
     <Layout>
-      <main className="bg-gray-100 border-b py-8">
+      <main className="py-8 mb-4">
         {data?.postRoadmap ? (
           <div className="flex justify-center">
             <Card>
@@ -98,12 +99,7 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
         ) : loading ? (
           <Loading />
         ) : (
-          <>
-            <h1 className="text-2xl font-bold mb-4 text-center">
-              ロードマップ作成
-            </h1>
-            <RoadmapForm categories={categories} onSubmit={onSubmit} />
-          </>
+          <RoadmapForm categories={categories} onSubmit={onSubmit} />
         )}
       </main>
     </Layout>

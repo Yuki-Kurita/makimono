@@ -17,9 +17,9 @@ const Header: React.VFC<HeaderProps> = ({
   onClickSignOut,
 }) => {
   return (
-    <div className="bg-gray-100 pt-3">
-      <div className="bg-white max-w-7xl mx-auto px-4 sm:px-6 rounded-2xl md:w-10/12 sm:w-11/12">
-        <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+    <div className="pt-3">
+      <div className="bg-white max-w-7xl mx-auto px-4 sm:px-6 rounded-2xl md:w-10/12 sm:w-11/12 shadow-md">
+        <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
           <Link href="/">
             <a href="#" className="flex justify-start lg:w-0 lg:flex-1">
               <span className="sr-only">makimono</span>
@@ -40,7 +40,7 @@ const Header: React.VFC<HeaderProps> = ({
             {user?.name ? (
               <>
                 <Link href="/roadmaps/new">
-                  <a className="flex rounded bg-indigo-600 text-white px-3 py-1">
+                  <a className="flex rounded bg-highlight text-white px-3 py-1">
                     <div>作成する</div>
                     <Image
                       src="/feather.svg"
@@ -88,7 +88,7 @@ const Header: React.VFC<HeaderProps> = ({
               </>
             ) : (
               <Link href="/signIn">
-                <a className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                <a className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2  rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                   Sign in
                 </a>
               </Link>

@@ -23,45 +23,49 @@ export const RoadmapInput: React.FC<RoadmapInputProps> = ({
 }) => {
   const order = index + 1;
   return (
-    <div className="mt-4 py-4 px-2 rounded-lg bg-white">
-      <div className="grid grid-cols-2 ">
-        <div className="col-span-2 mb-4">
-          <div className="no ml-3">{order}</div>
+    <div className="mt-4 py-4 px-2 rounded-lg bg-white shadow-lg">
+      <div className="flex flex-col">
+        <div className="mb-4 flex border-b-2 p-2 mx-4 font-bold text-xl">
+          <div className="no ml-3">{order}.</div>
+          <input
+            {...register(`roadmaps.${index}.order` as const)}
+            type="hidden"
+            value={order}
+          />
+          <input
+            {...register(`roadmaps.${index}.title` as const, {
+              required: true,
+              min: 1,
+              max: 100,
+            })}
+            className="appearance-none bg-transparent px-2 focus:outline-none ml-4 font-bold text-xl"
+            type="text"
+            placeholder="Title of step"
+          />
         </div>
-        <input
-          {...register(`roadmaps.${index}.order` as const)}
-          type="hidden"
-          value={order}
-        />
-        <input
-          {...register(`roadmaps.${index}.title` as const, {
-            required: true,
-            min: 1,
-            max: 100,
-          })}
-          className="appearance-none bg-transparent border-b border-teal-500 w-4/5 text-gray-700 mx-auto py-1 px-2 leading-tight focus:outline-none"
-          type="text"
-          placeholder="Title"
-        />
-        <input
-          {...register(`roadmaps.${index}.url` as const, {
-            required: true,
-            min: 1,
-            max: 500,
-          })}
-          className="appearance-none bg-transparent border-b border-teal-500 w-4/5 text-gray-700 mx-auto py-1 px-2 leading-tight focus:outline-none"
-          type="url"
-          placeholder="ロードマップのURL"
-        />
-        <textarea
-          {...register(`roadmaps.${index}.description` as const, {
-            required: true,
-            min: 1,
-            max: 5000,
-          })}
-          className="col-span-2 appearance-none bg-transparent border-b border-teal-500 w-11/12 text-gray-700 mx-auto mt-5 py-1 px-2 leading-tight focus:outline-none"
-          placeholder="説明"
-        />
+        <div className="p-4 justify-center flex">
+          <textarea
+            {...register(`roadmaps.${index}.description` as const, {
+              required: true,
+              min: 1,
+              max: 5000,
+            })}
+            className="w-full"
+            placeholder="説明"
+          />
+        </div>
+        <div>
+          <input
+            {...register(`roadmaps.${index}.url` as const, {
+              required: true,
+              min: 1,
+              max: 500,
+            })}
+            className="appearance-none bg-transparent border-b border-teal-500 w-4/5 text-gray-700 mx-auto py-1 px-2 leading-tight focus:outline-none"
+            type="url"
+            placeholder="ロードマップのURL"
+          />
+        </div>
       </div>
       <div className="h-7">
         {/* Formが2つ以上ある場合のみ削除できるボタンを表示 */}
