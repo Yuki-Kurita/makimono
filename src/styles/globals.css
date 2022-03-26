@@ -17,3 +17,32 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* for markdown */
+.markdown h1 {
+  @apply text-4xl text-darkGray border-b border-gray-300 font-bold;
+}
+.markdown h2 {
+  @apply text-3xl text-darkGray border-b border-gray-300 font-bold;
+}
+.markdown h3 {
+  @apply text-2xl text-darkGray font-bold;
+}
+.markdown h4 {
+  @apply text-lg text-darkGray font-bold;
+}
+.markdown h5 {
+  @apply text-base text-darkGray font-bold;
+}
+.markdown h6 {
+  @apply text-sm text-darkGray font-bold;
+}
+.markdown ol {
+  @apply list-decimal pl-10;
+}
+.markdown ul {
+  @apply list-disc pl-10;
+}
+.markdown ul {
+  @apply list-disc pl-10;
+}

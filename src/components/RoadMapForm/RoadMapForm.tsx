@@ -15,20 +15,22 @@ interface RoadmapFormProps {
 }
 
 export interface FormData {
+  title: string;
   roadmaps: {
     order: number;
     title: string;
-    url: string;
+    url: string[];
     description: string;
   }[];
   categoryId: number;
 }
 
 export interface FormError {
+  title: FieldError | undefined;
   roadmaps?: {
     order?: FieldError | undefined;
     title?: FieldError | undefined;
-    url?: FieldError | undefined;
+    url?: FieldError[] | undefined;
     description?: FieldError | undefined;
   }[];
   categoryId?: FieldError | undefined;
@@ -45,7 +47,7 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
     control,
   } = useForm<FormData>({
     defaultValues: {
-      roadmaps: [{ order: 1, title: "", url: "", description: "" }],
+      roadmaps: [{ order: 1, title: "", url: [""], description: "" }],
     },
   });
   // https://react-hook-form.com/api/usefieldarray
@@ -54,6 +56,7 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
     control,
   });
   const canRemoveForm = fields.length >= 2;
+  console.log("error :", errors);
   return (
     <div className="flex container mx-auto">
       <div className="px-4 py-2 w-3/4 bg-teriary-light rounded-lg shadow-md">
@@ -62,6 +65,7 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
             className="appearance-none bg-transparent w-4/5 mx-auto py-2 px-4 focus:outline-none mb-6 font-bold text-3xl"
             type="text"
             placeholder="Roadmap title"
+            {...register("title")}
           />
           {fields.map((field, index) => (
             <RoadmapInput
@@ -82,7 +86,7 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
                 append({
                   order: Number(fields[fields.length - 1].order) + 1,
                   title: "",
-                  url: "",
+                  url: [""],
                   description: "",
                 })
               }

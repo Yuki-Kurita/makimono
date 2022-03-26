@@ -55,7 +55,7 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
   };
 
   const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
-    console.log(data);
+    console.log(">>>", data);
     const args = postRoadmapArgBuilder(data);
     // postRoadmap({
     //   variables: args,
