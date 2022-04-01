@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { FormData, FormError } from "../RoadmapForm";
 import { DotButton } from "./DotButton";
 import ErrorMessages from "./ErrorMessages";
+import { RoadmapMarkdownInput } from "./RoadmapMarkdownInput";
 import { RoadmapInputURL } from "./RoadmapURLInput";
 
 interface RoadmapInputProps {
@@ -25,10 +24,6 @@ export const RoadmapInput: React.FC<RoadmapInputProps> = ({
   errors,
 }) => {
   const order = index + 1;
-  const [markdown, setMarkdown] = useState("");
-  const onChangeMarkdown = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMarkdown(e.target.value);
-  };
 
   return (
     <div className="mt-4 py-4 px-8 rounded-lg bg-white shadow-lg">
@@ -53,25 +48,7 @@ export const RoadmapInput: React.FC<RoadmapInputProps> = ({
           />
         </div>
         {/* マークダウンフォーム */}
-        <div className="p-4 flex justify-around">
-          <div className="w-1/2 p-4 border-gray-200 border-r-2">
-            <textarea
-              {...register(`roadmaps.${index}.description` as const, {
-                required: true,
-                minLength: 1,
-                maxLength: 5000,
-              })}
-              className="w-full appearance-none bg-transparent focus:outline-none h-28"
-              onChange={onChangeMarkdown}
-              placeholder="説明を書いてください"
-            />
-          </div>
-          <div className="w-1/2 p-4">
-            <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown">
-              {markdown}
-            </ReactMarkdown>
-          </div>
-        </div>
+        <RoadmapMarkdownInput index={index} register={register} />
         {/* URLフォーム */}
         <RoadmapInputURL index={index} register={register} />
       </div>

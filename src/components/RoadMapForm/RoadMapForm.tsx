@@ -56,7 +56,6 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
     control,
   });
   const canRemoveForm = fields.length >= 2;
-  console.log("error :", errors);
   return (
     <div className="flex container mx-auto">
       <div className="px-4 py-2 w-3/4 bg-teriary-light rounded-lg shadow-md">

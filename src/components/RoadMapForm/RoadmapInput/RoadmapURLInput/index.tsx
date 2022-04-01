@@ -43,6 +43,10 @@ export const RoadmapInputURL: React.VFC<RoadmapURLInputProps> = ({
       ]);
     }
   };
+  const onClickRemoveURL = (e: React.MouseEvent<any>, urlIndex: number) => {
+    e.preventDefault();
+    setFormURLs((before) => before.filter((it) => it.urlIndex !== urlIndex));
+  };
 
   return (
     <>
@@ -70,6 +74,7 @@ export const RoadmapInputURL: React.VFC<RoadmapURLInputProps> = ({
             urlIndex={formURL.urlIndex}
             url={formURL.url}
             register={register}
+            onClickRemoveURL={onClickRemoveURL}
             key={formURL.urlIndex}
           />
         ))}

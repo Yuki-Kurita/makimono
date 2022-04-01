@@ -11,12 +11,10 @@ export const postRoadmapArgBuilder = (
         id: it.order,
         description: it.description,
         title: it.title,
-        links: [
-          {
-            id: 1,
-            url: it.url,
-          },
-        ],
+        links: it.url.map((u, order) => ({
+          url: u,
+          order,
+        })),
       })),
       title: "roadmap title",
     },
