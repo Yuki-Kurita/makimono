@@ -11,12 +11,15 @@ export const postRoadmapArgBuilder = (
         id: it.order,
         description: it.description,
         title: it.title,
-        links: it.url.map((u, order) => ({
-          url: u,
-          order,
-        })),
+        links:
+          it.url.length >= 2
+            ? it.url.slice(1).map((u, order) => ({
+                url: u,
+                order: order + 1,
+              }))
+            : [{ url: it.url[0], order: 1 }],
       })),
-      title: "roadmap title",
+      title: formData.title,
     },
   };
 };

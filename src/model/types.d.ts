@@ -2,10 +2,11 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 import { FieldPolicy, FieldReadFunction, TypePolicies, TypePolicy } from '@apollo/client/cache';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -27,8 +28,8 @@ export type Author = {
 
 export type AuthorInput = {
   firebaseId: Scalars['String'];
-  iconUrl?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Float']>;
+  iconUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Float']>;
   name: Scalars['String'];
 };
 
@@ -52,7 +53,7 @@ export type Item = {
 };
 
 export type ItemInput = {
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id: Scalars['Float'];
   links: Array<LinkInput>;
   title: Scalars['String'];
@@ -65,7 +66,7 @@ export type Link = {
 };
 
 export type LinkInput = {
-  id: Scalars['Float'];
+  order: Scalars['Float'];
   url: Scalars['String'];
 };
 
@@ -108,12 +109,12 @@ export type MutationUpdateAuthorArgs = {
 
 export type MutationUpdateCategoryArgs = {
   category: CategoryInput;
-  id?: Maybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
 };
 
 
 export type MutationUpdateRoadmapArgs = {
-  id?: Maybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
   roadmap: RoadmapInput;
 };
 
@@ -125,13 +126,13 @@ export type Query = {
 
 
 export type QueryFindRoadmapArgs = {
-  categoryId?: Maybe<Scalars['Int']>;
-  id?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-  order?: Maybe<RoadmapOrder>;
-  orderBy?: Maybe<RoadmapOrderBy>;
-  page?: Maybe<Scalars['Int']>;
-  query?: Maybe<Scalars['String']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  order?: InputMaybe<RoadmapOrder>;
+  orderBy?: InputMaybe<RoadmapOrderBy>;
+  page?: InputMaybe<Scalars['Int']>;
+  query?: InputMaybe<Scalars['String']>;
 };
 
 export type Roadmap = {
@@ -166,16 +167,16 @@ export type PostAuthorMutationVariables = Exact<{
 }>;
 
 
-export type PostAuthorMutation = { __typename?: 'Mutation', postAuthor: { __typename?: 'Author', id: number, name: string, iconUrl?: string | null | undefined, firebaseId: string } };
+export type PostAuthorMutation = { __typename?: 'Mutation', postAuthor: { __typename?: 'Author', id: number, name: string, iconUrl?: string | null, firebaseId: string } };
 
 export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: number, name: string }> };
 
-export type RoadmapFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } };
+export type RoadmapFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } };
 
-export type RoadmapAllFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null | undefined, links: Array<{ __typename?: 'Link', url: string }> }>, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } };
+export type RoadmapAllFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', url: string }> }>, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null } };
 
 export type UpdateRoadmapMutationVariables = Exact<{
   roadmap: RoadmapInput;
@@ -197,7 +198,7 @@ export type FetchForTopQueryVariables = Exact<{
 }>;
 
 
-export type FetchForTopQuery = { __typename?: 'Query', findLatestRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }>, findProgrammingRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }>, findArtRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null | undefined } }> };
+export type FetchForTopQuery = { __typename?: 'Query', findLatestRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findProgrammingRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findArtRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
 
 export const RoadmapFieldsFragmentDoc = gql`
     fragment RoadmapFields on Roadmap {
