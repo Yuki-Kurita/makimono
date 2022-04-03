@@ -193,6 +193,18 @@ export type PostRoadmapMutationVariables = Exact<{
 
 export type PostRoadmapMutation = { __typename?: 'Mutation', postRoadmap: boolean };
 
+export type FetchAllRoadmapIdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchAllRoadmapIdsQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string }> };
+
+export type FetchRoadmapByIdQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type FetchRoadmapByIdQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
+
 export type FetchForTopQueryVariables = Exact<{
   limit: Scalars['Int'];
 }>;
@@ -377,6 +389,75 @@ export function usePostRoadmapMutation(baseOptions?: Apollo.MutationHookOptions<
 export type PostRoadmapMutationHookResult = ReturnType<typeof usePostRoadmapMutation>;
 export type PostRoadmapMutationResult = Apollo.MutationResult<PostRoadmapMutation>;
 export type PostRoadmapMutationOptions = Apollo.BaseMutationOptions<PostRoadmapMutation, PostRoadmapMutationVariables>;
+export const FetchAllRoadmapIdsDocument = gql`
+    query fetchAllRoadmapIds {
+  findRoadmap {
+    id
+  }
+}
+    `;
+
+/**
+ * __useFetchAllRoadmapIdsQuery__
+ *
+ * To run a query within a React component, call `useFetchAllRoadmapIdsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchAllRoadmapIdsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchAllRoadmapIdsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchAllRoadmapIdsQuery(baseOptions?: Apollo.QueryHookOptions<FetchAllRoadmapIdsQuery, FetchAllRoadmapIdsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchAllRoadmapIdsQuery, FetchAllRoadmapIdsQueryVariables>(FetchAllRoadmapIdsDocument, options);
+      }
+export function useFetchAllRoadmapIdsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchAllRoadmapIdsQuery, FetchAllRoadmapIdsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchAllRoadmapIdsQuery, FetchAllRoadmapIdsQueryVariables>(FetchAllRoadmapIdsDocument, options);
+        }
+export type FetchAllRoadmapIdsQueryHookResult = ReturnType<typeof useFetchAllRoadmapIdsQuery>;
+export type FetchAllRoadmapIdsLazyQueryHookResult = ReturnType<typeof useFetchAllRoadmapIdsLazyQuery>;
+export type FetchAllRoadmapIdsQueryResult = Apollo.QueryResult<FetchAllRoadmapIdsQuery, FetchAllRoadmapIdsQueryVariables>;
+export const FetchRoadmapByIdDocument = gql`
+    query fetchRoadmapById($id: String!) {
+  findRoadmap(id: $id) {
+    ...RoadmapFields
+  }
+}
+    ${RoadmapFieldsFragmentDoc}`;
+
+/**
+ * __useFetchRoadmapByIdQuery__
+ *
+ * To run a query within a React component, call `useFetchRoadmapByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchRoadmapByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchRoadmapByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFetchRoadmapByIdQuery(baseOptions: Apollo.QueryHookOptions<FetchRoadmapByIdQuery, FetchRoadmapByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchRoadmapByIdQuery, FetchRoadmapByIdQueryVariables>(FetchRoadmapByIdDocument, options);
+      }
+export function useFetchRoadmapByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchRoadmapByIdQuery, FetchRoadmapByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchRoadmapByIdQuery, FetchRoadmapByIdQueryVariables>(FetchRoadmapByIdDocument, options);
+        }
+export type FetchRoadmapByIdQueryHookResult = ReturnType<typeof useFetchRoadmapByIdQuery>;
+export type FetchRoadmapByIdLazyQueryHookResult = ReturnType<typeof useFetchRoadmapByIdLazyQuery>;
+export type FetchRoadmapByIdQueryResult = Apollo.QueryResult<FetchRoadmapByIdQuery, FetchRoadmapByIdQueryVariables>;
 export const FetchForTopDocument = gql`
     query fetchForTop($limit: Int!) {
   findLatestRoadmap: findRoadmap(limit: $limit, order: DESC, orderBy: UPDATEDAT) {

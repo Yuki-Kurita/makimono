@@ -1,21 +1,8 @@
 import Layout from "@/components/common/Layout";
-import ApiClient from "@/lib/ApiClient";
-import GuideResponse from "@/lib/GuideResponse";
-import { GetStaticProps, NextPage } from "next";
+import { NextPage } from "next";
 import React from "react";
 
-interface ExplorePageProps {
-  guides: GuideResponse[];
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const guides = await ApiClient.fetchGuides();
-  return {
-    props: { guides },
-  };
-};
-
-const ExplorePage: NextPage<ExplorePageProps> = ({ guides }) => {
+const ExplorePage: NextPage = () => {
   return (
     <Layout>
       <main className="bg-gray-100 border-b py-8">
