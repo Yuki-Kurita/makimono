@@ -1,5 +1,32 @@
 import { gql } from "@apollo/client";
 
+export const ROADMAP_DETAIL_FIELDS = gql`
+  fragment RoadmapDetailFields on Roadmap {
+    id
+    title
+    category {
+      id
+      name
+    }
+    items {
+      id
+      title
+      description
+      links {
+        id
+        url
+      }
+    }
+    likes
+    author {
+      name
+      iconUrl
+      firebaseId
+    }
+    updatedAt
+  }
+`;
+
 export const ROADMAP_FIELDS = gql`
   fragment RoadmapFields on Roadmap {
     id

@@ -11,7 +11,7 @@ export const RoadmapHeader: React.VFC<RoadmapHeaderProps> = ({ roadmap }) => {
     return dayjs(timestamp).format("YYYY/MM/DD");
   };
   return (
-    <div>
+    <div className="mb-8">
       <h1 className="text-3xl font-bold text-center py-8 px-4">
         {roadmap.title}
       </h1>

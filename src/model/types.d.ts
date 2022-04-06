@@ -174,6 +174,8 @@ export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: number, name: string }> };
 
+export type RoadmapDetailFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } };
+
 export type RoadmapFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } };
 
 export type RoadmapAllFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', url: string }> }>, category: { __typename?: 'Category', id: number, name: string }, author: { __typename?: 'Author', name: string, iconUrl?: string | null } };
@@ -212,6 +214,32 @@ export type FetchForTopQueryVariables = Exact<{
 
 export type FetchForTopQuery = { __typename?: 'Query', findLatestRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findProgrammingRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findArtRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
 
+export const RoadmapDetailFieldsFragmentDoc = gql`
+    fragment RoadmapDetailFields on Roadmap {
+  id
+  title
+  category {
+    id
+    name
+  }
+  items {
+    id
+    title
+    description
+    links {
+      id
+      url
+    }
+  }
+  likes
+  author {
+    name
+    iconUrl
+    firebaseId
+  }
+  updatedAt
+}
+    `;
 export const RoadmapFieldsFragmentDoc = gql`
     fragment RoadmapFields on Roadmap {
   id

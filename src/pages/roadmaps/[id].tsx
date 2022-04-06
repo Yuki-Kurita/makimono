@@ -1,5 +1,6 @@
 import Layout from "@/components/common/Layout";
 import { RoadmapHeader } from "@/components/RoadmapDetail/RoadmapHeader";
+import { RoadmapItems } from "@/components/RoadmapDetail/RoadmapItems";
 import { client } from "@/lib/config/apolloClient";
 import { FETCH_ALL_ROADMAP_IDS } from "@/lib/graphql/roadmapDetail/fetchAllRoadmapIds";
 import { FETCH_ROADMAP_BY_ID } from "@/lib/graphql/roadmapDetail/fetchRoadmapById";
@@ -62,15 +63,7 @@ const RoadmapDetailPage: NextPage<RoadmapDetailProps> = ({ roadmap }) => {
     <Layout>
       <main className="container mx-auto">
         <RoadmapHeader roadmap={roadmap} />
-        {/* {roadmap.items.map((it) => (
-          <RoadMapItem
-            title={it.title}
-            link={it.links}
-            comment={it.comment}
-            order={it.order}
-            key={it.title}
-          />
-        ))} */}
+        <RoadmapItems items={roadmap.items} />
       </main>
     </Layout>
   );
