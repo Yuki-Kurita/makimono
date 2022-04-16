@@ -61,6 +61,10 @@ export type ItemInput = {
 export type Link = {
   __typename?: 'Link';
   id: Scalars['Float'];
+  ogpDescription?: Maybe<Scalars['String']>;
+  ogpImageUrl?: Maybe<Scalars['String']>;
+  ogpTitle?: Maybe<Scalars['String']>;
+  order: Scalars['Float'];
   url: Scalars['String'];
 };
 
@@ -176,7 +180,7 @@ export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: number, name: string }> };
 
-export type RoadmapDetailFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } };
+export type RoadmapDetailFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string, order: number, ogpTitle?: string | null, ogpImageUrl?: string | null, ogpDescription?: string | null }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } };
 
 export type RoadmapFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } };
 
@@ -207,7 +211,7 @@ export type FetchRoadmapByIdQueryVariables = Exact<{
 }>;
 
 
-export type FetchRoadmapByIdQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } }> };
+export type FetchRoadmapByIdQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string, order: number, ogpTitle?: string | null, ogpImageUrl?: string | null, ogpDescription?: string | null }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } }> };
 
 export type FetchForTopQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -231,6 +235,10 @@ export const RoadmapDetailFieldsFragmentDoc = gql`
     links {
       id
       url
+      order
+      ogpTitle
+      ogpImageUrl
+      ogpDescription
     }
   }
   likes
@@ -548,9 +556,13 @@ export type ItemFieldPolicy = {
 	links?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type LinkKeySpecifier = ('id' | 'url' | LinkKeySpecifier)[];
+export type LinkKeySpecifier = ('id' | 'ogpDescription' | 'ogpImageUrl' | 'ogpTitle' | 'order' | 'url' | LinkKeySpecifier)[];
 export type LinkFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	ogpDescription?: FieldPolicy<any> | FieldReadFunction<any>,
+	ogpImageUrl?: FieldPolicy<any> | FieldReadFunction<any>,
+	ogpTitle?: FieldPolicy<any> | FieldReadFunction<any>,
+	order?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type MutationKeySpecifier = ('deleteCategory' | 'deleteRoadmap' | 'postAuthor' | 'postRoadmap' | 'updateAuthor' | 'updateCategory' | 'updateRoadmap' | MutationKeySpecifier)[];

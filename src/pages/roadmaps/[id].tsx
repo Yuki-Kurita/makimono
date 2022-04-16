@@ -1,6 +1,7 @@
 import Layout from "@/components/common/Layout";
 import { RoadmapHeader } from "@/components/RoadmapDetail/RoadmapHeader";
 import { RoadmapItems } from "@/components/RoadmapDetail/RoadmapItems";
+import { SideContents } from "@/components/RoadmapDetail/SideContents";
 import { client } from "@/lib/config/apolloClient";
 import { FETCH_ALL_ROADMAP_IDS } from "@/lib/graphql/roadmapDetail/fetchAllRoadmapIds";
 import { FETCH_ROADMAP_BY_ID } from "@/lib/graphql/roadmapDetail/fetchRoadmapById";
@@ -59,12 +60,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const RoadmapDetailPage: NextPage<RoadmapDetailProps> = ({ roadmap }) => {
-  console.log(roadmap);
   return (
     <Layout>
       <main className="container mx-auto">
         <RoadmapHeader roadmap={roadmap} />
-        <RoadmapItems items={roadmap.items} />
+        <div className="flex justify-center">
+          <RoadmapItems items={roadmap.items} />
+          <SideContents roadmap={roadmap} />
+        </div>
       </main>
     </Layout>
   );

@@ -15,6 +15,10 @@ export const ROADMAP_DETAIL_FIELDS = gql`
       links {
         id
         url
+        order
+        ogpTitle
+        ogpImageUrl
+        ogpDescription
       }
     }
     likes
