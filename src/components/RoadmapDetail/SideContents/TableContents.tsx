@@ -22,7 +22,7 @@ export const TableContents: React.VFC<TableContentsProps> = ({ items }) => {
     }
   };
   return (
-    <div className="bg-white p-8 rounded-md shadow w-64 sticky top-4 overflow-auto">
+    <div className="bg-white p-8 rounded-md shadow w-64 sticky top-4 mb-6 overflow-auto">
       <h3 className="font-bold text-xl mb-4 text-center">Roadmap</h3>
       <ol>
         {items.map((item, index) => (
