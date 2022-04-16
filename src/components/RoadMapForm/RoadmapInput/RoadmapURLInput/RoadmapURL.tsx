@@ -19,10 +19,18 @@ export const RoadmapURL: React.VFC<RoadmapURLProps> = ({
 }) => {
   return (
     <div>
-      <OGP url={url} urlIndex={urlIndex} onClickRemoveURL={onClickRemoveURL} />
+      <OGP
+        url={url}
+        urlIndex={urlIndex}
+        onClickRemoveURL={onClickRemoveURL}
+        register={register}
+        roadmapIndex={roadmapIndex}
+      />
       {/* FIXME: index 0からだと空文字で登録されてしまう */}
       <input
-        {...register(`roadmaps.${roadmapIndex}.url.${urlIndex + 1}` as const)}
+        {...register(
+          `roadmaps.${roadmapIndex}.links.${urlIndex + 1}.url` as const
+        )}
         value={url}
         type="hidden"
       />

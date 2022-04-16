@@ -1,17 +1,23 @@
+import { FormData } from "@/components/RoadMapForm/RoadmapForm";
 import { OGPResponse } from "@/pages/api/ogp";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { UseFormRegister } from "react-hook-form";
 
 interface OGPProps {
   url: string;
   urlIndex: number;
   onClickRemoveURL: (e: React.MouseEvent<any>, urlIndex: number) => void;
+  register: UseFormRegister<FormData>;
+  roadmapIndex: number;
 }
 
 export const OGP: React.VFC<OGPProps> = ({
   url,
   urlIndex,
   onClickRemoveURL,
+  register,
+  roadmapIndex,
 }) => {
   const [ogp, setOgp] = useState<OGPResponse>();
   useEffect(() => {
@@ -70,6 +76,32 @@ export const OGP: React.VFC<OGPProps> = ({
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
+          {/* Form送信用 */}
+          <input
+            {...register(
+              `roadmaps.${roadmapIndex}.links.${urlIndex + 1}.ogpTitle` as const
+            )}
+            value={ogp.title}
+            type="hidden"
+          />
+          <input
+            {...register(
+              `roadmaps.${roadmapIndex}.links.${
+                urlIndex + 1
+              }.ogpImageUrl` as const
+            )}
+            value={ogp.image}
+            type="hidden"
+          />
+          <input
+            {...register(
+              `roadmaps.${roadmapIndex}.links.${
+                urlIndex + 1
+              }.ogpDescription` as const
+            )}
+            value={ogp.description}
+            type="hidden"
+          />
         </div>
       )}
     </>

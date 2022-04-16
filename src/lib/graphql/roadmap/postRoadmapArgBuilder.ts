@@ -8,16 +8,15 @@ export const postRoadmapArgBuilder = (
     roadmap: {
       categoryId: Number(formData.categoryId),
       items: formData.roadmaps.map((it) => ({
-        id: it.order,
         description: it.description,
         title: it.title,
         links:
-          it.url.length >= 2
-            ? it.url.slice(1).map((u, order) => ({
-                url: u,
+          it.links.length >= 2
+            ? it.links.slice(1).map((link, order) => ({
+                ...link,
                 order: order + 1,
               }))
-            : [{ url: it.url[0], order: 1 }],
+            : [{ ...it.links[0], order: 1 }],
       })),
       title: formData.title,
     },

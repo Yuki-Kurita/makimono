@@ -59,6 +59,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const RoadmapDetailPage: NextPage<RoadmapDetailProps> = ({ roadmap }) => {
+  console.log(roadmap);
   return (
     <Layout>
       <main className="container mx-auto">

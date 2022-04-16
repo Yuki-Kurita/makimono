@@ -9,8 +9,14 @@ interface RoadmapItemsProps {
 export const RoadmapItems: React.VFC<RoadmapItemsProps> = ({ items }) => {
   return (
     <>
-      <div className="h-10 bg-highlight relative before:-mr-4 before:bg-amber-900 before:w-9 before:h-9"></div>
-      <div className="bg-teriary-light shadow-md p-8 border-8 border-highlight">
+      {/* Makimono design */}
+      <div className="h-10 bg-highlight relative">
+        <div className="absolute -left-5 top-2 w-5 h-6 bg-amber-900 rounded-l-lg"></div>
+        <div className="absolute -left-1 w-1 h-10 bg-amber-400"></div>
+        <div className="absolute -right-5 top-2 w-5 h-6 bg-amber-900 rounded-r-lg"></div>
+        <div className="absolute -right-1 w-1 h-10 bg-amber-400"></div>
+      </div>
+      <div className="bg-teriary-light shadow-md p-8 border-8 border-highlight rounded-b-lg">
         {items.map((item) => (
           <div className="mb-4" key={item.id}>
             <div className="p-4 rounded-lg bg-white shadow-lg">

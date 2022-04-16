@@ -54,7 +54,6 @@ export type Item = {
 
 export type ItemInput = {
   description?: InputMaybe<Scalars['String']>;
-  id: Scalars['Float'];
   links: Array<LinkInput>;
   title: Scalars['String'];
 };
@@ -66,6 +65,9 @@ export type Link = {
 };
 
 export type LinkInput = {
+  ogpDescription?: InputMaybe<Scalars['String']>;
+  ogpImageUrl?: InputMaybe<Scalars['String']>;
+  ogpTitle?: InputMaybe<Scalars['String']>;
   order: Scalars['Float'];
   url: Scalars['String'];
 };
@@ -205,7 +207,7 @@ export type FetchRoadmapByIdQueryVariables = Exact<{
 }>;
 
 
-export type FetchRoadmapByIdQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
+export type FetchRoadmapByIdQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } }> };
 
 export type FetchForTopQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -454,10 +456,10 @@ export type FetchAllRoadmapIdsQueryResult = Apollo.QueryResult<FetchAllRoadmapId
 export const FetchRoadmapByIdDocument = gql`
     query fetchRoadmapById($id: String!) {
   findRoadmap(id: $id) {
-    ...RoadmapFields
+    ...RoadmapDetailFields
   }
 }
-    ${RoadmapFieldsFragmentDoc}`;
+    ${RoadmapDetailFieldsFragmentDoc}`;
 
 /**
  * __useFetchRoadmapByIdQuery__

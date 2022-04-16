@@ -19,7 +19,12 @@ export interface FormData {
   roadmaps: {
     order: number;
     title: string;
-    url: string[];
+    links: {
+      url: string;
+      ogpTitle?: string;
+      ogpImageUrl?: string;
+      ogpDescription?: string;
+    }[];
     description: string;
   }[];
   categoryId: number;
@@ -30,7 +35,12 @@ export interface FormError {
   roadmaps?: {
     order?: FieldError | undefined;
     title?: FieldError | undefined;
-    url?: FieldError[] | undefined;
+    links: {
+      url?: FieldError | undefined;
+      ogpTitle?: FieldError | undefined;
+      ogpImageUrl?: FieldError | undefined;
+      ogpDescription?: FieldError | undefined;
+    }[];
     description?: FieldError | undefined;
   }[];
   categoryId?: FieldError | undefined;
@@ -47,7 +57,9 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
     control,
   } = useForm<FormData>({
     defaultValues: {
-      roadmaps: [{ order: 1, title: "", url: [""], description: "" }],
+      roadmaps: [
+        { order: 1, title: "", links: [{ url: "" }], description: "" },
+      ],
     },
   });
   // https://react-hook-form.com/api/usefieldarray
@@ -85,7 +97,7 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
                 append({
                   order: Number(fields[fields.length - 1].order) + 1,
                   title: "",
-                  url: [""],
+                  links: [{ url: "" }],
                   description: "",
                 })
               }
