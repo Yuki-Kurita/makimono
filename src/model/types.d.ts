@@ -58,6 +58,14 @@ export type ItemInput = {
   title: Scalars['String'];
 };
 
+export type Like = {
+  __typename?: 'Like';
+  firebaseId: Scalars['String'];
+  id: Scalars['Int'];
+  isMine: Scalars['Boolean'];
+  roadmapId: Scalars['String'];
+};
+
 export type Link = {
   __typename?: 'Link';
   id: Scalars['Float'];
@@ -84,6 +92,7 @@ export type Mutation = {
   postRoadmap: Scalars['Boolean'];
   updateAuthor: Author;
   updateCategory: Scalars['Boolean'];
+  updateLike: Like;
   updateRoadmap: Scalars['Boolean'];
 };
 
@@ -119,6 +128,11 @@ export type MutationUpdateCategoryArgs = {
 };
 
 
+export type MutationUpdateLikeArgs = {
+  roadmapId: Scalars['String'];
+};
+
+
 export type MutationUpdateRoadmapArgs = {
   id?: InputMaybe<Scalars['String']>;
   roadmap: RoadmapInput;
@@ -126,8 +140,14 @@ export type MutationUpdateRoadmapArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  fetchIsLikedByMe: Array<Like>;
   findAllCategories: Array<Category>;
   findRoadmap: Array<Roadmap>;
+};
+
+
+export type QueryFetchIsLikedByMeArgs = {
+  roadmapId: Scalars['String'];
 };
 
 
@@ -179,6 +199,20 @@ export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: number, name: string }> };
+
+export type UpdateLikeMutationVariables = Exact<{
+  roadmapId: Scalars['String'];
+}>;
+
+
+export type UpdateLikeMutation = { __typename?: 'Mutation', updateLike: { __typename?: 'Like', roadmapId: string } };
+
+export type FetchIsLikedByMeQueryVariables = Exact<{
+  roadmapId: Scalars['String'];
+}>;
+
+
+export type FetchIsLikedByMeQuery = { __typename?: 'Query', fetchIsLikedByMe: Array<{ __typename?: 'Like', id: number, roadmapId: string, isMine: boolean }> };
 
 export type RoadmapDetailFieldsFragment = { __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string, order: number, ogpTitle?: string | null, ogpImageUrl?: string | null, ogpDescription?: string | null }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } };
 
@@ -364,6 +398,76 @@ export function useFindAllCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type FindAllCategoryQueryHookResult = ReturnType<typeof useFindAllCategoryQuery>;
 export type FindAllCategoryLazyQueryHookResult = ReturnType<typeof useFindAllCategoryLazyQuery>;
 export type FindAllCategoryQueryResult = Apollo.QueryResult<FindAllCategoryQuery, FindAllCategoryQueryVariables>;
+export const UpdateLikeDocument = gql`
+    mutation updateLike($roadmapId: String!) {
+  updateLike(roadmapId: $roadmapId) {
+    roadmapId
+  }
+}
+    `;
+export type UpdateLikeMutationFn = Apollo.MutationFunction<UpdateLikeMutation, UpdateLikeMutationVariables>;
+
+/**
+ * __useUpdateLikeMutation__
+ *
+ * To run a mutation, you first call `useUpdateLikeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateLikeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateLikeMutation, { data, loading, error }] = useUpdateLikeMutation({
+ *   variables: {
+ *      roadmapId: // value for 'roadmapId'
+ *   },
+ * });
+ */
+export function useUpdateLikeMutation(baseOptions?: Apollo.MutationHookOptions<UpdateLikeMutation, UpdateLikeMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateLikeMutation, UpdateLikeMutationVariables>(UpdateLikeDocument, options);
+      }
+export type UpdateLikeMutationHookResult = ReturnType<typeof useUpdateLikeMutation>;
+export type UpdateLikeMutationResult = Apollo.MutationResult<UpdateLikeMutation>;
+export type UpdateLikeMutationOptions = Apollo.BaseMutationOptions<UpdateLikeMutation, UpdateLikeMutationVariables>;
+export const FetchIsLikedByMeDocument = gql`
+    query fetchIsLikedByMe($roadmapId: String!) {
+  fetchIsLikedByMe(roadmapId: $roadmapId) {
+    id
+    roadmapId
+    isMine
+  }
+}
+    `;
+
+/**
+ * __useFetchIsLikedByMeQuery__
+ *
+ * To run a query within a React component, call `useFetchIsLikedByMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchIsLikedByMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchIsLikedByMeQuery({
+ *   variables: {
+ *      roadmapId: // value for 'roadmapId'
+ *   },
+ * });
+ */
+export function useFetchIsLikedByMeQuery(baseOptions: Apollo.QueryHookOptions<FetchIsLikedByMeQuery, FetchIsLikedByMeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchIsLikedByMeQuery, FetchIsLikedByMeQueryVariables>(FetchIsLikedByMeDocument, options);
+      }
+export function useFetchIsLikedByMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchIsLikedByMeQuery, FetchIsLikedByMeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchIsLikedByMeQuery, FetchIsLikedByMeQueryVariables>(FetchIsLikedByMeDocument, options);
+        }
+export type FetchIsLikedByMeQueryHookResult = ReturnType<typeof useFetchIsLikedByMeQuery>;
+export type FetchIsLikedByMeLazyQueryHookResult = ReturnType<typeof useFetchIsLikedByMeLazyQuery>;
+export type FetchIsLikedByMeQueryResult = Apollo.QueryResult<FetchIsLikedByMeQuery, FetchIsLikedByMeQueryVariables>;
 export const UpdateRoadmapDocument = gql`
     mutation updateRoadmap($roadmap: RoadmapInput!, $id: String!) {
   updateRoadmap(roadmap: $roadmap, id: $id)
@@ -556,6 +660,13 @@ export type ItemFieldPolicy = {
 	links?: FieldPolicy<any> | FieldReadFunction<any>,
 	title?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type LikeKeySpecifier = ('firebaseId' | 'id' | 'isMine' | 'roadmapId' | LikeKeySpecifier)[];
+export type LikeFieldPolicy = {
+	firebaseId?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	isMine?: FieldPolicy<any> | FieldReadFunction<any>,
+	roadmapId?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type LinkKeySpecifier = ('id' | 'ogpDescription' | 'ogpImageUrl' | 'ogpTitle' | 'order' | 'url' | LinkKeySpecifier)[];
 export type LinkFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -565,7 +676,7 @@ export type LinkFieldPolicy = {
 	order?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('deleteCategory' | 'deleteRoadmap' | 'postAuthor' | 'postRoadmap' | 'updateAuthor' | 'updateCategory' | 'updateRoadmap' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('deleteCategory' | 'deleteRoadmap' | 'postAuthor' | 'postRoadmap' | 'updateAuthor' | 'updateCategory' | 'updateLike' | 'updateRoadmap' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -573,10 +684,12 @@ export type MutationFieldPolicy = {
 	postRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateAuthor?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateCategory?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateLike?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateRoadmap?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('findAllCategories' | 'findRoadmap' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('fetchIsLikedByMe' | 'findAllCategories' | 'findRoadmap' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
+	fetchIsLikedByMe?: FieldPolicy<any> | FieldReadFunction<any>,
 	findAllCategories?: FieldPolicy<any> | FieldReadFunction<any>,
 	findRoadmap?: FieldPolicy<any> | FieldReadFunction<any>
 };
@@ -602,6 +715,10 @@ export type StrictTypedTypePolicies = {
 	Item?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | ItemKeySpecifier | (() => undefined | ItemKeySpecifier),
 		fields?: ItemFieldPolicy,
+	},
+	Like?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | LikeKeySpecifier | (() => undefined | LikeKeySpecifier),
+		fields?: LikeFieldPolicy,
 	},
 	Link?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | LinkKeySpecifier | (() => undefined | LinkKeySpecifier),

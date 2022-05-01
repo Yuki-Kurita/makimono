@@ -1,4 +1,5 @@
 import Layout from "@/components/common/Layout";
+import { Loading } from "@/components/common/Loading";
 import { RoadmapHeader } from "@/components/RoadmapDetail/RoadmapHeader";
 import { RoadmapItems } from "@/components/RoadmapDetail/RoadmapItems";
 import { SideContents } from "@/components/RoadmapDetail/SideContents";
@@ -12,12 +13,13 @@ import {
   FetchRoadmapByIdQueryVariables,
   Roadmap,
 } from "@/model/types";
+import { useQuery } from "@apollo/client";
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { ParsedUrlQuery } from "node:querystring";
 import React from "react";
 
 interface RoadmapDetailProps {
-  roadmap: Roadmap;
+  id: string;
 }
 
 interface RoadmapDetailPath extends ParsedUrlQuery {
@@ -32,16 +34,8 @@ export const getStaticProps: GetStaticProps<any, RoadmapDetailPath> = async ({
   if (!id) {
     throw Error("Not found id");
   }
-  const { data } = await client.query<
-    FetchRoadmapByIdQuery,
-    FetchRoadmapByIdQueryVariables
-  >({ query: FETCH_ROADMAP_BY_ID, variables: { id } });
-  const roadmap = data.findRoadmap[0];
-  if (!roadmap) {
-    throw new Error("Not found roadmap");
-  }
   return {
-    props: { roadmap },
+    props: { id },
   };
 };
 
@@ -59,15 +53,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-const RoadmapDetailPage: NextPage<RoadmapDetailProps> = ({ roadmap }) => {
+const RoadmapDetailPage: NextPage<RoadmapDetailProps> = ({ id }) => {
+  const { data, loading, refetch } = useQuery<
+    FetchRoadmapByIdQuery,
+    FetchRoadmapByIdQueryVariables
+  >(FETCH_ROADMAP_BY_ID, { variables: { id } });
   return (
     <Layout>
       <main className="container mx-auto">
-        <RoadmapHeader roadmap={roadmap} />
-        <div className="flex justify-center">
-          <RoadmapItems items={roadmap.items} />
-          <SideContents roadmap={roadmap} />
-        </div>
+        {loading ? (
+          <Loading />
+        ) : data ? (
+          <>
+            <RoadmapHeader roadmap={data.findRoadmap[0] as Roadmap} />
+            <div className="flex justify-center">
+              <RoadmapItems items={data?.findRoadmap[0].items} />
+              <SideContents
+                roadmap={data.findRoadmap[0] as Roadmap}
+                refetchRoadmap={refetch}
+              />
+            </div>
+          </>
+        ) : (
+          <div>データが取得できませんでした</div>
+        )}
       </main>
     </Layout>
   );
