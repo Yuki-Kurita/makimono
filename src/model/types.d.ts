@@ -22,14 +22,14 @@ export type Author = {
   __typename?: 'Author';
   firebaseId: Scalars['String'];
   iconUrl?: Maybe<Scalars['String']>;
-  id: Scalars['Int'];
+  id: Scalars['String'];
   name: Scalars['String'];
 };
 
 export type AuthorInput = {
   firebaseId: Scalars['String'];
   iconUrl?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['Float']>;
+  id?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
@@ -143,6 +143,8 @@ export type Query = {
   fetchIsLikedByMe: Array<Like>;
   findAllCategories: Array<Category>;
   findRoadmap: Array<Roadmap>;
+  getAllAuthors: Array<Author>;
+  getAuthorById: Author;
 };
 
 
@@ -188,12 +190,22 @@ export enum RoadmapOrderBy {
   Updatedat = 'UPDATEDAT'
 }
 
+export type GetAllAuthorsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllAuthorsQuery = { __typename?: 'Query', getAllAuthors: Array<{ __typename?: 'Author', id: string }> };
+
+export type GetAuthorByIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAuthorByIdQuery = { __typename?: 'Query', getAuthorById: { __typename?: 'Author', id: string, name: string, iconUrl?: string | null } };
+
 export type PostAuthorMutationVariables = Exact<{
   author: AuthorInput;
 }>;
 
 
-export type PostAuthorMutation = { __typename?: 'Mutation', postAuthor: { __typename?: 'Author', id: number, name: string, iconUrl?: string | null, firebaseId: string } };
+export type PostAuthorMutation = { __typename?: 'Mutation', postAuthor: { __typename?: 'Author', id: string, name: string, iconUrl?: string | null, firebaseId: string } };
 
 export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -327,6 +339,76 @@ export const RoadmapAllFieldsFragmentDoc = gql`
   updatedAt
 }
     `;
+export const GetAllAuthorsDocument = gql`
+    query getAllAuthors {
+  getAllAuthors {
+    id
+  }
+}
+    `;
+
+/**
+ * __useGetAllAuthorsQuery__
+ *
+ * To run a query within a React component, call `useGetAllAuthorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllAuthorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllAuthorsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllAuthorsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllAuthorsQuery, GetAllAuthorsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllAuthorsQuery, GetAllAuthorsQueryVariables>(GetAllAuthorsDocument, options);
+      }
+export function useGetAllAuthorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllAuthorsQuery, GetAllAuthorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllAuthorsQuery, GetAllAuthorsQueryVariables>(GetAllAuthorsDocument, options);
+        }
+export type GetAllAuthorsQueryHookResult = ReturnType<typeof useGetAllAuthorsQuery>;
+export type GetAllAuthorsLazyQueryHookResult = ReturnType<typeof useGetAllAuthorsLazyQuery>;
+export type GetAllAuthorsQueryResult = Apollo.QueryResult<GetAllAuthorsQuery, GetAllAuthorsQueryVariables>;
+export const GetAuthorByIdDocument = gql`
+    query getAuthorById {
+  getAuthorById {
+    id
+    name
+    iconUrl
+  }
+}
+    `;
+
+/**
+ * __useGetAuthorByIdQuery__
+ *
+ * To run a query within a React component, call `useGetAuthorByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAuthorByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAuthorByIdQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAuthorByIdQuery(baseOptions?: Apollo.QueryHookOptions<GetAuthorByIdQuery, GetAuthorByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAuthorByIdQuery, GetAuthorByIdQueryVariables>(GetAuthorByIdDocument, options);
+      }
+export function useGetAuthorByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAuthorByIdQuery, GetAuthorByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAuthorByIdQuery, GetAuthorByIdQueryVariables>(GetAuthorByIdDocument, options);
+        }
+export type GetAuthorByIdQueryHookResult = ReturnType<typeof useGetAuthorByIdQuery>;
+export type GetAuthorByIdLazyQueryHookResult = ReturnType<typeof useGetAuthorByIdLazyQuery>;
+export type GetAuthorByIdQueryResult = Apollo.QueryResult<GetAuthorByIdQuery, GetAuthorByIdQueryVariables>;
 export const PostAuthorDocument = gql`
     mutation postAuthor($author: AuthorInput!) {
   postAuthor(author: $author) {
@@ -687,11 +769,13 @@ export type MutationFieldPolicy = {
 	updateLike?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateRoadmap?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('fetchIsLikedByMe' | 'findAllCategories' | 'findRoadmap' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('fetchIsLikedByMe' | 'findAllCategories' | 'findRoadmap' | 'getAllAuthors' | 'getAuthorById' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	fetchIsLikedByMe?: FieldPolicy<any> | FieldReadFunction<any>,
 	findAllCategories?: FieldPolicy<any> | FieldReadFunction<any>,
-	findRoadmap?: FieldPolicy<any> | FieldReadFunction<any>
+	findRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
+	getAllAuthors?: FieldPolicy<any> | FieldReadFunction<any>,
+	getAuthorById?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type RoadmapKeySpecifier = ('author' | 'category' | 'id' | 'items' | 'likes' | 'title' | 'updatedAt' | RoadmapKeySpecifier)[];
 export type RoadmapFieldPolicy = {

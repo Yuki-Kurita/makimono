@@ -66,7 +66,7 @@ const Header: React.VFC<HeaderProps> = ({
                       x-show="dropdownOpen"
                       className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20"
                     >
-                      <Link href="/user">
+                      <Link href={`/user/${user.name}`}>
                         <a className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
                           {user.name}
                         </a>
