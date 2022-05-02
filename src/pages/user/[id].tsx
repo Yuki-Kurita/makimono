@@ -1,9 +1,19 @@
 import Layout from "@/components/common/Layout";
+import { Profile } from "@/components/User/Profile";
+import { UserRoadmaps } from "@/components/User/UserRoadmaps";
 import { client } from "@/lib/config/apolloClient";
 import { GET_ALL_AUTHOR_IDS } from "@/lib/graphql/author/getAllAuthorIds";
 import { GetAllAuthorsQuery, GetAllAuthorsQueryVariables } from "@/model/types";
-import { GetStaticPaths } from "next";
+import { useAppSelector } from "@/store/hooks";
+import { GetStaticPaths, GetStaticProps } from "next";
 import React from "react";
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const id = params?.id;
+  return {
+    props: { id },
+  };
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data, error } = await client.query<
@@ -20,12 +30,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const UserPage: React.FC = () => {
+  const user = useAppSelector((state) => state.user);
   return (
     <Layout>
-      <main>
-        <h2>投稿したロードマップ一覧</h2>
-        {/* TODO: 編集・削除等の操作はここで行う */}
-        <h2>プロフィールの修正</h2>
+      <main className="container mx-auto mt-6 flex gap-8">
+        <Profile user={user} />
+        <UserRoadmaps />
       </main>
     </Layout>
   );
