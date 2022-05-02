@@ -7,5 +7,10 @@ export const FETCH_ROADMAP_BY_ID = gql`
     findRoadmap(id: $id) {
       ...RoadmapDetailFields
     }
+    fetchIsLikedByMe(roadmapId: $id) {
+      id
+      roadmapId
+      isMine
+    }
   }
 `;

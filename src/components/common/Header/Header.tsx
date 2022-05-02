@@ -53,7 +53,7 @@ const Header: React.VFC<HeaderProps> = ({
                 <div onClick={() => setIsOpen(!isOpen)}>
                   <Image
                     className="inline object-cover w-10 h-10 rounded-full border-2 border-gray-500"
-                    src={user.iconUrl ? user.iconUrl : "/like.svg"}
+                    src={user.iconUrl ? user.iconUrl : "/noimage.svg"}
                     width={35}
                     height={35}
                     alt="Profile image"

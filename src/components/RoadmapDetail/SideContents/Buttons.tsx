@@ -1,19 +1,18 @@
 import { Loading } from "@/components/common/Loading";
 import { UPDATE_LIKE } from "@/lib/graphql/like/likeMutation";
-import { FETCH_IS_LIKED_BY_ME } from "@/lib/graphql/like/likeQuery";
 import {
   Exact,
-  FetchIsLikedByMeQuery,
-  FetchIsLikedByMeQueryVariables,
   FetchRoadmapByIdQuery,
+  Like,
   UpdateLikeMutation,
   UpdateLikeMutationVariables,
 } from "@/model/types";
-import { ApolloQueryResult, useMutation, useQuery } from "@apollo/client";
+import { ApolloQueryResult, useMutation } from "@apollo/client";
 
 interface ButtonsProps {
   roadmapId: string;
   likes: number;
+  likeByMe: (Like | undefined)[];
   refetchRoadmap: (
     variables?:
       | Partial<
@@ -28,40 +27,25 @@ interface ButtonsProps {
 export const Buttons: React.VFC<ButtonsProps> = ({
   roadmapId,
   likes,
+  likeByMe,
   refetchRoadmap,
 }) => {
   const [updateLike, { loading, error }] = useMutation<
     UpdateLikeMutation,
     UpdateLikeMutationVariables
   >(UPDATE_LIKE);
-  const {
-    data: isLike,
-    loading: isLikeLoading,
-    error: isLikeError,
-    refetch: isLikeRefetch,
-  } = useQuery<FetchIsLikedByMeQuery, FetchIsLikedByMeQueryVariables>(
-    FETCH_IS_LIKED_BY_ME,
-    {
-      fetchPolicy: "no-cache",
-      nextFetchPolicy: "no-cache",
-      variables: {
-        roadmapId: roadmapId,
-      },
-    }
-  );
   const onClickLike = () => {
     updateLike({
       variables: {
         roadmapId: roadmapId,
       },
     }).then(() => {
-      isLikeRefetch();
       refetchRoadmap();
     });
   };
   return (
     <div className="flex justify-around sticky top-96 py-4">
-      {loading || isLikeLoading ? (
+      {loading ? (
         <Loading />
       ) : (
         <div className="flex align-middle">
@@ -72,9 +56,7 @@ export const Buttons: React.VFC<ButtonsProps> = ({
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className={`h-8 w-8 ${
-                isLike &&
-                isLike.fetchIsLikedByMe.length >= 1 &&
-                isLike.fetchIsLikedByMe[0].isMine
+                likeByMe && likeByMe.length >= 1 && likeByMe[0]?.isMine
                   ? "fill-amber-300 text-amber-400"
                   : "text-gray-500 fill-white"
               }`}

@@ -142,6 +142,7 @@ export type Query = {
   __typename?: 'Query';
   fetchIsLikedByMe: Array<Like>;
   findAllCategories: Array<Category>;
+  findLikeRoadmap: Array<Roadmap>;
   findMyRoadmap: Array<Roadmap>;
   findRoadmap: Array<Roadmap>;
   getAllAuthors: Array<Author>;
@@ -258,7 +259,7 @@ export type FetchRoadmapByIdQueryVariables = Exact<{
 }>;
 
 
-export type FetchRoadmapByIdQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string, order: number, ogpTitle?: string | null, ogpImageUrl?: string | null, ogpDescription?: string | null }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } }> };
+export type FetchRoadmapByIdQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string, order: number, ogpTitle?: string | null, ogpImageUrl?: string | null, ogpDescription?: string | null }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } }>, fetchIsLikedByMe: Array<{ __typename?: 'Like', id: number, roadmapId: string, isMine: boolean }> };
 
 export type FetchForTopQueryVariables = Exact<{
   limit: Scalars['Int'];
@@ -267,10 +268,10 @@ export type FetchForTopQueryVariables = Exact<{
 
 export type FetchForTopQuery = { __typename?: 'Query', findLatestRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findProgrammingRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findArtRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
 
-export type FindMyRoadmapQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindUserRoadmapQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindMyRoadmapQuery = { __typename?: 'Query', findMyRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string, order: number, ogpTitle?: string | null, ogpImageUrl?: string | null, ogpDescription?: string | null }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } }> };
+export type FindUserRoadmapQuery = { __typename?: 'Query', findMyRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string, order: number, ogpTitle?: string | null, ogpImageUrl?: string | null, ogpDescription?: string | null }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } }>, findLikeRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number, title: string, description?: string | null, links: Array<{ __typename?: 'Link', id: number, url: string, order: number, ogpTitle?: string | null, ogpImageUrl?: string | null, ogpDescription?: string | null }> }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null, firebaseId: string } }> };
 
 export const RoadmapDetailFieldsFragmentDoc = gql`
     fragment RoadmapDetailFields on Roadmap {
@@ -658,6 +659,11 @@ export const FetchRoadmapByIdDocument = gql`
   findRoadmap(id: $id) {
     ...RoadmapDetailFields
   }
+  fetchIsLikedByMe(roadmapId: $id) {
+    id
+    roadmapId
+    isMine
+  }
 }
     ${RoadmapDetailFieldsFragmentDoc}`;
 
@@ -729,40 +735,43 @@ export function useFetchForTopLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type FetchForTopQueryHookResult = ReturnType<typeof useFetchForTopQuery>;
 export type FetchForTopLazyQueryHookResult = ReturnType<typeof useFetchForTopLazyQuery>;
 export type FetchForTopQueryResult = Apollo.QueryResult<FetchForTopQuery, FetchForTopQueryVariables>;
-export const FindMyRoadmapDocument = gql`
-    query findMyRoadmap {
+export const FindUserRoadmapDocument = gql`
+    query findUserRoadmap {
   findMyRoadmap {
+    ...RoadmapDetailFields
+  }
+  findLikeRoadmap {
     ...RoadmapDetailFields
   }
 }
     ${RoadmapDetailFieldsFragmentDoc}`;
 
 /**
- * __useFindMyRoadmapQuery__
+ * __useFindUserRoadmapQuery__
  *
- * To run a query within a React component, call `useFindMyRoadmapQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindMyRoadmapQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindUserRoadmapQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindUserRoadmapQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFindMyRoadmapQuery({
+ * const { data, loading, error } = useFindUserRoadmapQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFindMyRoadmapQuery(baseOptions?: Apollo.QueryHookOptions<FindMyRoadmapQuery, FindMyRoadmapQueryVariables>) {
+export function useFindUserRoadmapQuery(baseOptions?: Apollo.QueryHookOptions<FindUserRoadmapQuery, FindUserRoadmapQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindMyRoadmapQuery, FindMyRoadmapQueryVariables>(FindMyRoadmapDocument, options);
+        return Apollo.useQuery<FindUserRoadmapQuery, FindUserRoadmapQueryVariables>(FindUserRoadmapDocument, options);
       }
-export function useFindMyRoadmapLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMyRoadmapQuery, FindMyRoadmapQueryVariables>) {
+export function useFindUserRoadmapLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindUserRoadmapQuery, FindUserRoadmapQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindMyRoadmapQuery, FindMyRoadmapQueryVariables>(FindMyRoadmapDocument, options);
+          return Apollo.useLazyQuery<FindUserRoadmapQuery, FindUserRoadmapQueryVariables>(FindUserRoadmapDocument, options);
         }
-export type FindMyRoadmapQueryHookResult = ReturnType<typeof useFindMyRoadmapQuery>;
-export type FindMyRoadmapLazyQueryHookResult = ReturnType<typeof useFindMyRoadmapLazyQuery>;
-export type FindMyRoadmapQueryResult = Apollo.QueryResult<FindMyRoadmapQuery, FindMyRoadmapQueryVariables>;
+export type FindUserRoadmapQueryHookResult = ReturnType<typeof useFindUserRoadmapQuery>;
+export type FindUserRoadmapLazyQueryHookResult = ReturnType<typeof useFindUserRoadmapLazyQuery>;
+export type FindUserRoadmapQueryResult = Apollo.QueryResult<FindUserRoadmapQuery, FindUserRoadmapQueryVariables>;
 export type AuthorKeySpecifier = ('firebaseId' | 'iconUrl' | 'id' | 'name' | AuthorKeySpecifier)[];
 export type AuthorFieldPolicy = {
 	firebaseId?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -809,10 +818,11 @@ export type MutationFieldPolicy = {
 	updateLike?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateRoadmap?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('fetchIsLikedByMe' | 'findAllCategories' | 'findMyRoadmap' | 'findRoadmap' | 'getAllAuthors' | 'getAuthorById' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('fetchIsLikedByMe' | 'findAllCategories' | 'findLikeRoadmap' | 'findMyRoadmap' | 'findRoadmap' | 'getAllAuthors' | 'getAuthorById' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	fetchIsLikedByMe?: FieldPolicy<any> | FieldReadFunction<any>,
 	findAllCategories?: FieldPolicy<any> | FieldReadFunction<any>,
+	findLikeRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	findMyRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	findRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	getAllAuthors?: FieldPolicy<any> | FieldReadFunction<any>,

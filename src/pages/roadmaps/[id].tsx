@@ -11,6 +11,7 @@ import {
   FetchAllRoadmapIdsQueryVariables,
   FetchRoadmapByIdQuery,
   FetchRoadmapByIdQueryVariables,
+  Like,
   Roadmap,
 } from "@/model/types";
 import { useQuery } from "@apollo/client";
@@ -70,12 +71,13 @@ const RoadmapDetailPage: NextPage<RoadmapDetailProps> = ({ id }) => {
               <RoadmapItems items={data?.findRoadmap[0].items} />
               <SideContents
                 roadmap={data.findRoadmap[0] as Roadmap}
+                likeByMe={data.fetchIsLikedByMe as (Like | undefined)[]}
                 refetchRoadmap={refetch}
               />
             </div>
           </>
         ) : (
-          <div>データが取得できませんでした</div>
+          <div></div>
         )}
       </main>
     </Layout>

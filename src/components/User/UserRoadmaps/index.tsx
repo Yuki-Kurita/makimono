@@ -1,8 +1,8 @@
 import { Loading } from "@/components/common/Loading";
 import { FETCH_USER_ROADMAP } from "@/lib/graphql/user/fetchUserRoadmap";
 import {
-  FindMyRoadmapQuery,
-  FindMyRoadmapQueryVariables,
+  FindUserRoadmapQuery,
+  FindUserRoadmapQueryVariables,
   Roadmap,
 } from "@/model/types";
 import { useQuery } from "@apollo/client";
@@ -13,8 +13,8 @@ type RoadmapInUserPage = "like" | "mine";
 
 export const UserRoadmaps: React.FC = () => {
   const { data, error, loading } = useQuery<
-    FindMyRoadmapQuery,
-    FindMyRoadmapQueryVariables
+    FindUserRoadmapQuery,
+    FindUserRoadmapQueryVariables
   >(FETCH_USER_ROADMAP);
   const [roadmapType, setRoadmapType] = useState<RoadmapInUserPage>("mine");
   const onClickTab = () => {
@@ -56,7 +56,9 @@ export const UserRoadmaps: React.FC = () => {
             <UserRoadmapItem roadmap={roadmap as Roadmap} key={roadmap.id} />
           ))
         ) : (
-          <div></div>
+          data?.findLikeRoadmap.map((roadmap) => (
+            <UserRoadmapItem roadmap={roadmap as Roadmap} key={roadmap.id} />
+          ))
         )}
       </div>
     </div>

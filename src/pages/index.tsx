@@ -48,7 +48,7 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
 
   return (
     <Layout>
-      <main className="bg-gray-100 border-b py-8">
+      <main className="pt-8">
         <div>
           <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-600">
             Latest

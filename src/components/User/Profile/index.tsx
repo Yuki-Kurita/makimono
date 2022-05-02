@@ -15,7 +15,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
       <div className="flex justify-center mb-2">
         <Image
           className="inline object-cover w-16 h-16 rounded-full border-2 border-gray-500"
-          src={user.iconUrl ? user.iconUrl : "/like.svg"}
+          src={user.iconUrl ? user.iconUrl : "/noimage.svg"}
           width={50}
           height={50}
           alt="Profile image"
