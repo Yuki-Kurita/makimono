@@ -42,16 +42,18 @@ const Auth: React.VFC<AuthProps> = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      getAuthorById().then((author) => {
-        dispatch(
-          setUser({
-            id: author.data?.getAuthorById.id,
-            name: user?.displayName,
-            iconUrl: user?.photoURL,
-            isLogin: true,
-          })
-        );
-      });
+      if (user) {
+        getAuthorById().then((author) => {
+          dispatch(
+            setUser({
+              id: author.data?.getAuthorById.id,
+              name: user?.displayName,
+              iconUrl: user?.photoURL,
+              isLogin: true,
+            })
+          );
+        });
+      }
     });
   }, [dispatch, getAuthorById]);
 

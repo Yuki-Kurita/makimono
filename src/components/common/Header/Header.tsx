@@ -71,11 +71,6 @@ const Header: React.VFC<HeaderProps> = ({
                           {user.name}
                         </a>
                       </Link>
-                      <Link href="/setting">
-                        <a className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white">
-                          設定
-                        </a>
-                      </Link>
                       <a
                         onClick={onClickSignOut}
                         className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-400 hover:text-white"

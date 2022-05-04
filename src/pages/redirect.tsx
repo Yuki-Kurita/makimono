@@ -6,15 +6,12 @@ import { useRouter } from "next/dist/client/router";
 
 const RedirectPage: NextPage = () => {
   const router = useRouter();
-  const [updateAuthor, { data, loading, error }] = useMutation(POST_AUTHOR);
+  const [postAuthor] = useMutation(POST_AUTHOR);
 
   auth.onAuthStateChanged(async (user) => {
     if (user) {
-      var uid = user.uid;
-      console.log(uid);
       try {
-        // TODO: firebaseIdが存在していたら登録はしない
-        await updateAuthor({
+        await postAuthor({
           variables: {
             author: {
               name: user?.displayName,
@@ -25,10 +22,8 @@ const RedirectPage: NextPage = () => {
         });
         router.push("/");
       } catch (e) {
-        console.error(error);
+        router.push("/system-error");
       }
-    } else {
-      // TODO: ログインできなかった場合の処理
     }
   });
 
