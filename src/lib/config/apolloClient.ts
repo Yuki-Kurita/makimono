@@ -6,12 +6,12 @@ const httpLink = createHttpLink({
   uri: `${process.env.NEXT_PUBLIC_ENDPOINT}/graphql`,
 });
 
-const authLink = setContext(async (_, { headers }) => {
+const authLink = setContext(async (_, context) => {
   try {
     const token = await auth.currentUser?.getIdToken(true);
     return {
       headers: {
-        ...headers,
+        ...context.headers,
         authorization: token ? `Bearer ${token}` : "",
       },
     };

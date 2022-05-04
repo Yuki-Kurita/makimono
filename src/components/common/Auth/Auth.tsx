@@ -26,9 +26,9 @@ const Auth: React.VFC<AuthProps> = ({ children }) => {
           setUser({
             id: author.data?.getAuthorById.id,
             name:
-              auth.currentUser?.displayName || author.data?.getAuthorById.name,
+              author.data?.getAuthorById.name || auth.currentUser?.displayName,
             iconUrl:
-              auth.currentUser?.photoURL || author.data?.getAuthorById.iconUrl,
+              author.data?.getAuthorById.iconUrl || auth.currentUser?.photoURL,
             isLogin: true,
           });
         });
@@ -46,8 +46,8 @@ const Auth: React.VFC<AuthProps> = ({ children }) => {
         dispatch(
           setUser({
             id: author.data?.getAuthorById.id,
-            name: user?.displayName,
-            iconUrl: user?.photoURL,
+            name: author.data?.getAuthorById.name || user?.displayName,
+            iconUrl: author.data?.getAuthorById.iconUrl || user?.photoURL,
             isLogin: true,
           })
         );

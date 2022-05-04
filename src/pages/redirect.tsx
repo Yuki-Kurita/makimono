@@ -13,6 +13,7 @@ const RedirectPage: NextPage = () => {
       var uid = user.uid;
       console.log(uid);
       try {
+        // TODO: firebaseIdが存在していたら登録はしない
         await updateAuthor({
           variables: {
             author: {

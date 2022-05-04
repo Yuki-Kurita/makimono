@@ -26,6 +26,10 @@ export type Author = {
   name: Scalars['String'];
 };
 
+export type AuthorEditInput = {
+  name: Scalars['String'];
+};
+
 export type AuthorInput = {
   firebaseId: Scalars['String'];
   iconUrl?: InputMaybe<Scalars['String']>;
@@ -88,6 +92,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   deleteCategory: Scalars['Boolean'];
   deleteRoadmap: Scalars['Boolean'];
+  editAuthor: Author;
   postAuthor: Author;
   postRoadmap: Scalars['Boolean'];
   updateAuthor: Author;
@@ -104,6 +109,11 @@ export type MutationDeleteCategoryArgs = {
 
 export type MutationDeleteRoadmapArgs = {
   id: Scalars['String'];
+};
+
+
+export type MutationEditAuthorArgs = {
+  author: AuthorEditInput;
 };
 
 
@@ -208,6 +218,13 @@ export type PostAuthorMutationVariables = Exact<{
 
 
 export type PostAuthorMutation = { __typename?: 'Mutation', postAuthor: { __typename?: 'Author', id: string, name: string, iconUrl?: string | null, firebaseId: string } };
+
+export type EditAuthorMutationVariables = Exact<{
+  author: AuthorEditInput;
+}>;
+
+
+export type EditAuthorMutation = { __typename?: 'Mutation', editAuthor: { __typename?: 'Author', id: string, name: string, iconUrl?: string | null, firebaseId: string } };
 
 export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -452,6 +469,42 @@ export function usePostAuthorMutation(baseOptions?: Apollo.MutationHookOptions<P
 export type PostAuthorMutationHookResult = ReturnType<typeof usePostAuthorMutation>;
 export type PostAuthorMutationResult = Apollo.MutationResult<PostAuthorMutation>;
 export type PostAuthorMutationOptions = Apollo.BaseMutationOptions<PostAuthorMutation, PostAuthorMutationVariables>;
+export const EditAuthorDocument = gql`
+    mutation editAuthor($author: AuthorEditInput!) {
+  editAuthor(author: $author) {
+    id
+    name
+    iconUrl
+    firebaseId
+  }
+}
+    `;
+export type EditAuthorMutationFn = Apollo.MutationFunction<EditAuthorMutation, EditAuthorMutationVariables>;
+
+/**
+ * __useEditAuthorMutation__
+ *
+ * To run a mutation, you first call `useEditAuthorMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditAuthorMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editAuthorMutation, { data, loading, error }] = useEditAuthorMutation({
+ *   variables: {
+ *      author: // value for 'author'
+ *   },
+ * });
+ */
+export function useEditAuthorMutation(baseOptions?: Apollo.MutationHookOptions<EditAuthorMutation, EditAuthorMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditAuthorMutation, EditAuthorMutationVariables>(EditAuthorDocument, options);
+      }
+export type EditAuthorMutationHookResult = ReturnType<typeof useEditAuthorMutation>;
+export type EditAuthorMutationResult = Apollo.MutationResult<EditAuthorMutation>;
+export type EditAuthorMutationOptions = Apollo.BaseMutationOptions<EditAuthorMutation, EditAuthorMutationVariables>;
 export const FindAllCategoryDocument = gql`
     query findAllCategory {
   findAllCategories {
@@ -807,10 +860,11 @@ export type LinkFieldPolicy = {
 	order?: FieldPolicy<any> | FieldReadFunction<any>,
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('deleteCategory' | 'deleteRoadmap' | 'postAuthor' | 'postRoadmap' | 'updateAuthor' | 'updateCategory' | 'updateLike' | 'updateRoadmap' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('deleteCategory' | 'deleteRoadmap' | 'editAuthor' | 'postAuthor' | 'postRoadmap' | 'updateAuthor' | 'updateCategory' | 'updateLike' | 'updateRoadmap' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
+	editAuthor?: FieldPolicy<any> | FieldReadFunction<any>,
 	postAuthor?: FieldPolicy<any> | FieldReadFunction<any>,
 	postRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateAuthor?: FieldPolicy<any> | FieldReadFunction<any>,
