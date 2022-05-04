@@ -70,7 +70,6 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
     control,
   });
   const canRemoveForm = fields.length >= 2;
-  const t = errors.roadmaps?.[1];
   return (
     <div className="flex container mx-auto flex-col-reverse md:flex-row">
       <div className="px-4 py-2 w-full md:w-3/4 bg-teriary-light rounded-lg shadow-md">
@@ -121,7 +120,11 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
           </div>
         </form>
       </div>
-      <RoadmapFormSidebar register={register} categories={categories} />
+      <RoadmapFormSidebar
+        register={register}
+        categories={categories}
+        categoryErrorMessage={errors.categoryId?.message}
+      />
     </div>
   );
 };

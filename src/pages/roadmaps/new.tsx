@@ -68,9 +68,9 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
   const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
     const args = postRoadmapArgBuilder(data);
     console.log("post roadmap", args);
-    postRoadmap({
-      variables: args,
-    });
+    // postRoadmap({
+    //   variables: args,
+    // });
   };
   return (
     <Layout>

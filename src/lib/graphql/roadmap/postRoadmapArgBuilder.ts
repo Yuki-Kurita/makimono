@@ -12,11 +12,15 @@ export const postRoadmapArgBuilder = (
         title: it.title,
         links:
           it.links.length >= 2
-            ? it.links.slice(1).map((link, order) => ({
-                ...link,
-                order: order + 1,
-              }))
-            : [{ ...it.links[0], order: 1 }],
+            ? // URLを入力しない場合空文字で送られてしまうので排除する
+              it.links
+                .slice(1)
+                .map((link, order) => ({
+                  ...link,
+                  order: order + 1,
+                }))
+                .filter((l) => l.url !== "")
+            : [{ ...it.links[0], order: 1 }].filter((l) => l.url !== ""),
       })),
       title: formData.title,
     },
