@@ -1,4 +1,4 @@
-import Layout from "@/components/common/Layout";
+import { Layout } from "@/components/common/Layout";
 import { Loading } from "@/components/common/Loading";
 import { RoadmapHeader } from "@/components/RoadmapDetail/RoadmapHeader";
 import { RoadmapItems } from "@/components/RoadmapDetail/RoadmapItems";

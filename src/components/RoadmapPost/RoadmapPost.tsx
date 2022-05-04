@@ -10,7 +10,7 @@ interface RoadmapPostProps {
 
 export const RoadmapPost: React.VFC<RoadmapPostProps> = ({ roadmap }) => {
   return (
-    <article className="shadow-lg mb-6 w-10/12 max-w-xl ml-auto mr-auto rounded-b-lg">
+    <article className="shadow-lg mb-6 w-10/12 max-w-xl ml-auto mr-auto rounded-b-lg bg-white">
       <div className="h-6 bg-highlight relative">
         <div className="absolute -left-3 top-1 w-2 h-3 bg-amber-900 rounded-l-lg"></div>
         <div className="absolute -left-1 w-1 h-6 bg-amber-400"></div>

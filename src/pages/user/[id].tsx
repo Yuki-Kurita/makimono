@@ -1,4 +1,4 @@
-import Layout from "@/components/common/Layout";
+import { Layout } from "@/components/common/Layout";
 import { Profile } from "@/components/User/Profile";
 import { UserRoadmaps } from "@/components/User/UserRoadmaps";
 import { client } from "@/lib/config/apolloClient";

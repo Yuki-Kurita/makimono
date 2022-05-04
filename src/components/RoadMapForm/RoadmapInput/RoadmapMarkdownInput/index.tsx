@@ -1,8 +1,7 @@
 import { ErrorMessage } from "@/components/common/ErrorMessage";
+import { Markdown } from "@/components/common/Markdown";
 import React, { useState } from "react";
 import { UseFormRegister } from "react-hook-form";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { FormData, RoadmapFormError } from "../../RoadmapForm";
 
 interface RoadmapMarkdownInput {
@@ -21,9 +20,14 @@ export const RoadmapMarkdownInput: React.VFC<RoadmapMarkdownInput> = ({
   const onChangeMarkdown = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
   };
-  const onClickTab = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickTab = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    isPreviewMode: boolean
+  ) => {
     e.preventDefault();
-    setIsPreview((pre) => !pre);
+    const canSwitch = isPreviewMode === true && isPreview === true;
+    const canSwitch2 = isPreviewMode === false && isPreview === false;
+    if (!canSwitch && !canSwitch2) setIsPreview((pre) => !pre);
   };
   return (
     <>
@@ -31,7 +35,7 @@ export const RoadmapMarkdownInput: React.VFC<RoadmapMarkdownInput> = ({
       <ul className="flex text-sm text-center text-gray-500 rounded-lg divide-x divide-gray-200 shadow w-80">
         <li className="w-full">
           <button
-            onClick={onClickTab}
+            onClick={(e) => onClickTab(e, false)}
             className={`inline-block p-2 w-full active focus:outline-none ${
               !isPreview
                 ? "text-gray-900 bg-gray-100"
@@ -43,7 +47,7 @@ export const RoadmapMarkdownInput: React.VFC<RoadmapMarkdownInput> = ({
         </li>
         <li className="w-full">
           <button
-            onClick={onClickTab}
+            onClick={(e) => onClickTab(e, true)}
             className={`inline-block p-2 w-full active focus:outline-none ${
               isPreview
                 ? "text-gray-900 bg-gray-100"
@@ -73,9 +77,9 @@ export const RoadmapMarkdownInput: React.VFC<RoadmapMarkdownInput> = ({
             placeholder="説明を書いてください"
           />
         ) : (
-          <ReactMarkdown remarkPlugins={[remarkGfm]} className="markdown h-40">
-            {markdown}
-          </ReactMarkdown>
+          <div className="">
+            <Markdown markdown={markdown}></Markdown>
+          </div>
         )}
       </div>
       <div className="mb-4">

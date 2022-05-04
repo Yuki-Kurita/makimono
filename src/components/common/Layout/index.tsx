@@ -6,7 +6,7 @@ import React from "react";
 import Footer from "../Footer";
 import Header from "../Header";
 
-const Layout: React.FC = ({ children }) => {
+export const Layout: React.FC = ({ children }) => {
   const { data, loading, error, refetch } = useQuery<
     GetAuthorByIdQuery,
     GetAuthorByIdQueryVariables
@@ -22,5 +22,3 @@ const Layout: React.FC = ({ children }) => {
     </div>
   );
 };
-
-export default Layout;

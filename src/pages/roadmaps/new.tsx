@@ -1,6 +1,6 @@
 import { Button } from "@/components/common/Button";
 import { Card } from "@/components/common/Card";
-import Layout from "@/components/common/Layout";
+import { Layout } from "@/components/common/Layout";
 import { Loading } from "@/components/common/Loading";
 import { FormData, RoadmapForm } from "@/components/RoadMapForm/RoadmapForm";
 import { client } from "@/lib/config/apolloClient";
@@ -67,10 +67,9 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
 
   const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
     const args = postRoadmapArgBuilder(data);
-    console.log("post roadmap", args);
-    // postRoadmap({
-    //   variables: args,
-    // });
+    postRoadmap({
+      variables: args,
+    });
   };
   return (
     <Layout>
