@@ -10,3 +10,14 @@ export const POST_AUTHOR = gql`
     }
   }
 `;
+
+export const EDIT_AUTHOR = gql`
+  mutation editAuthor($author: AuthorEditInput!) {
+    editAuthor(author: $author) {
+      id
+      name
+      iconUrl
+      firebaseId
+    }
+  }
+`;

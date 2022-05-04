@@ -1,4 +1,3 @@
-import Auth from "@/components/common/Auth";
 import { client } from "@/lib/config/apolloClient";
 import store from "@/store";
 import { ApolloProvider } from "@apollo/client";
@@ -36,9 +35,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             <meta property="og:site_name" content="サイト名" />
             <meta property="og:locale" content="ja_JP" />
           </Head>
-          <Auth>
-            <Component {...pageProps} />
-          </Auth>
+          <Component {...pageProps} />
         </ApolloProvider>
       </Provider>
     </>

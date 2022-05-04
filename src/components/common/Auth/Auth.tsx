@@ -1,61 +1,95 @@
-import { auth } from "@/config/firebaseConfig";
 import { GET_AUTHOR_BY_ID } from "@/lib/graphql/author/getAuthorById";
-import { GetAuthorByIdQuery, GetAuthorByIdQueryVariables } from "@/model/types";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setUser } from "@/store/user/userSlice";
-import { useLazyQuery } from "@apollo/client";
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect } from "react";
+import {
+  Author,
+  Exact,
+  GetAuthorByIdQuery,
+  GetAuthorByIdQueryVariables,
+} from "@/model/types";
+import { ApolloQueryResult, useLazyQuery } from "@apollo/client";
+import { createContext, useEffect, useState } from "react";
 
 interface AuthProps {
   children: React.ReactNode;
 }
 
+export interface UserState {
+  data: Author | undefined;
+  refetch: (
+    variables?:
+      | Partial<
+          Exact<{
+            [key: string]: never;
+          }>
+        >
+      | undefined
+  ) => Promise<ApolloQueryResult<GetAuthorByIdQuery>>;
+}
+
+export const AuthContext = createContext<UserState | undefined>(undefined);
+
 const Auth: React.VFC<AuthProps> = ({ children }) => {
-  const [getAuthorById] = useLazyQuery<
+  const [getAuthor] = useLazyQuery<
     GetAuthorByIdQuery,
     GetAuthorByIdQueryVariables
   >(GET_AUTHOR_BY_ID);
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
 
+  const [userState, setUserState] = useState();
   useEffect(() => {
-    if (!user.name) {
-      if (auth.currentUser) {
-        getAuthorById().then((author) => {
-          setUser({
-            id: author.data?.getAuthorById.id,
-            name:
-              auth.currentUser?.displayName || author.data?.getAuthorById.name,
-            iconUrl:
-              auth.currentUser?.photoURL || author.data?.getAuthorById.iconUrl,
-            isLogin: true,
-          });
-        });
-      } else {
-        setUser({
-          isLogin: false,
-        });
-      }
-    }
-  }, [getAuthorById, user.name]);
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      getAuthorById().then((author) => {
-        dispatch(
-          setUser({
-            id: author.data?.getAuthorById.id,
-            name: user?.displayName,
-            iconUrl: user?.photoURL,
-            isLogin: true,
-          })
-        );
+    console.log("call");
+    getAuthor().then((author) => {
+      console.log(author.data);
+      setUserState({
+        data: author.data?.getAuthorById,
+        refetch: author.refetch,
       });
     });
-  }, [dispatch, getAuthorById]);
+  }, [getAuthor]);
+  // const dispatch = useAppDispatch();
 
-  return <>{children}</>;
+  // useEffect(() => {
+  //   if (!userInfo.name) {
+  //     if (auth.currentUser) {
+  //       getAuthorById().then((author) => {
+  //         const u = {
+  //           id: author.data?.getAuthorById.id,
+  //           name:
+  //             author.data?.getAuthorById.name || auth.currentUser?.displayName,
+  //           iconUrl:
+  //             author.data?.getAuthorById.iconUrl || auth.currentUser?.photoURL,
+  //           isLogin: true,
+  //         };
+  //         setUser(u);
+  //         setUserInfo(u);
+  //       });
+  //     } else {
+  //       setUser({
+  //         isLogin: false,
+  //       });
+  //       setUserInfo({
+  //         isLogin: false,
+  //       });
+  //     }
+  //   }
+  // }, [getAuthorById, userInfo]);
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     getAuthorById().then((author) => {
+  //       dispatch(
+  //         setUser({
+  //           id: author.data?.getAuthorById.id,
+  //           name: author.data?.getAuthorById.name || user?.displayName,
+  //           iconUrl: author.data?.getAuthorById.iconUrl || user?.photoURL,
+  //           isLogin: true,
+  //         })
+  //       );
+  //     });
+  //   });
+  // }, [dispatch, getAuthorById]);
+
+  return (
+    <AuthContext.Provider value={userState}>{children}</AuthContext.Provider>
+  );
 };
 
 export default Auth;
