@@ -6,6 +6,7 @@ import {
   useFieldArray,
   useForm,
 } from "react-hook-form";
+import { ErrorMessage } from "../common/ErrorMessage";
 import { RoadmapFormSidebar } from "../RoadmapFormSidebar";
 import { RoadmapInput } from "./RoadmapInput/RoadMapInput";
 
@@ -30,19 +31,20 @@ export interface FormData {
   categoryId: number;
 }
 
+export interface RoadmapFormError {
+  order?: FieldError | undefined;
+  title?: FieldError | undefined;
+  links: {
+    url?: FieldError | undefined;
+    ogpTitle?: FieldError | undefined;
+    ogpImageUrl?: FieldError | undefined;
+    ogpDescription?: FieldError | undefined;
+  }[];
+  description?: FieldError | undefined;
+}
 export interface FormError {
   title: FieldError | undefined;
-  roadmaps?: {
-    order?: FieldError | undefined;
-    title?: FieldError | undefined;
-    links: {
-      url?: FieldError | undefined;
-      ogpTitle?: FieldError | undefined;
-      ogpImageUrl?: FieldError | undefined;
-      ogpDescription?: FieldError | undefined;
-    }[];
-    description?: FieldError | undefined;
-  }[];
+  roadmaps?: RoadmapFormError[];
   categoryId?: FieldError | undefined;
 }
 
@@ -68,16 +70,20 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
     control,
   });
   const canRemoveForm = fields.length >= 2;
+  const t = errors.roadmaps?.[1];
   return (
-    <div className="flex container mx-auto">
-      <div className="px-4 py-2 w-3/4 bg-teriary-light rounded-lg shadow-md">
+    <div className="flex container mx-auto flex-col-reverse md:flex-row">
+      <div className="px-4 py-2 w-full md:w-3/4 bg-teriary-light rounded-lg shadow-md">
         <form className="px-4 py-4">
           <input
             className="appearance-none bg-transparent w-4/5 mx-auto py-2 px-4 focus:outline-none mb-6 font-bold text-3xl"
             type="text"
             placeholder="Roadmap title"
-            {...register("title")}
+            {...register("title", {
+              required: "ロードマップのタイトルを記述してください",
+            })}
           />
+          <ErrorMessage message={errors.title?.message} />
           {fields.map((field, index) => (
             <RoadmapInput
               id={field.id}
@@ -86,7 +92,7 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
               register={register}
               canRemoveForm={canRemoveForm}
               remove={remove}
-              errors={errors}
+              error={errors.roadmaps?.[index] as RoadmapFormError}
             />
           ))}
           <div className="text-center mt-7">

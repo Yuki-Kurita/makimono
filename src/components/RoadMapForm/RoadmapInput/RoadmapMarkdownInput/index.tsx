@@ -1,17 +1,20 @@
+import { ErrorMessage } from "@/components/common/ErrorMessage";
 import React, { useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { FormData } from "../../RoadmapForm";
+import { FormData, RoadmapFormError } from "../../RoadmapForm";
 
 interface RoadmapMarkdownInput {
   index: number;
   register: UseFormRegister<FormData>;
+  error: RoadmapFormError | undefined;
 }
 
 export const RoadmapMarkdownInput: React.VFC<RoadmapMarkdownInput> = ({
   index,
   register,
+  error,
 }) => {
   const [isPreview, setIsPreview] = useState(false);
   const [markdown, setMarkdown] = useState("");
@@ -55,11 +58,17 @@ export const RoadmapMarkdownInput: React.VFC<RoadmapMarkdownInput> = ({
         {!isPreview ? (
           <textarea
             {...register(`roadmaps.${index}.description` as const, {
-              required: true,
-              minLength: 1,
-              maxLength: 5000,
+              required: "説明は必須です",
+              minLength: {
+                value: 1,
+                message: "説明は1文字以上40000文字以下で入力してください",
+              },
+              maxLength: {
+                value: 40000,
+                message: "説明は1文字以上40000文字以下で入力してください",
+              },
             })}
-            className="w-full appearance-none bg-transparent focus:outline-none h-40"
+            className="w-full appearance-none bg-transparent focus:outline-none h-40 shadow p-4"
             onChange={onChangeMarkdown}
             placeholder="説明を書いてください"
           />
@@ -68,6 +77,9 @@ export const RoadmapMarkdownInput: React.VFC<RoadmapMarkdownInput> = ({
             {markdown}
           </ReactMarkdown>
         )}
+      </div>
+      <div className="mb-4">
+        <ErrorMessage message={error?.description?.message} />
       </div>
     </>
   );

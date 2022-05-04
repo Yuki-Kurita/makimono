@@ -1,8 +1,8 @@
+import { ErrorMessage } from "@/components/common/ErrorMessage";
 import React from "react";
 import { UseFormRegister } from "react-hook-form";
-import { FormData, FormError } from "../RoadmapForm";
+import { FormData, RoadmapFormError } from "../RoadmapForm";
 import { DotButton } from "./DotButton";
-import ErrorMessages from "./ErrorMessages";
 import { RoadmapMarkdownInput } from "./RoadmapMarkdownInput";
 import { RoadmapInputURL } from "./RoadmapURLInput";
 
@@ -12,7 +12,7 @@ interface RoadmapInputProps {
   register: UseFormRegister<FormData>;
   canRemoveForm: boolean;
   remove: (index?: number | number[] | undefined) => void;
-  errors: FormError;
+  error: RoadmapFormError | undefined;
 }
 
 export const RoadmapInput: React.FC<RoadmapInputProps> = ({
@@ -21,7 +21,7 @@ export const RoadmapInput: React.FC<RoadmapInputProps> = ({
   register,
   canRemoveForm,
   remove,
-  errors,
+  error,
 }) => {
   const order = index + 1;
 
@@ -38,24 +38,32 @@ export const RoadmapInput: React.FC<RoadmapInputProps> = ({
           />
           <input
             {...register(`roadmaps.${index}.title` as const, {
-              required: true,
-              minLength: 1,
-              maxLength: 100,
+              required: "タイトルは必須です",
+              minLength: {
+                value: 1,
+                message: "タイトルは1文字以上100文字以下で入力してください",
+              },
+              maxLength: {
+                value: 100,
+                message: "タイトルは1文字以上100文字以下で入力してください",
+              },
             })}
             className="appearance-none bg-transparent px-2 focus:outline-none ml-4 font-bold text-xl"
             type="text"
             placeholder="Title of step"
           />
         </div>
+        <div className="mb-4">
+          <ErrorMessage message={error?.title?.message} />
+        </div>
         {/* マークダウンフォーム */}
-        <RoadmapMarkdownInput index={index} register={register} />
+        <RoadmapMarkdownInput index={index} register={register} error={error} />
         {/* URLフォーム */}
         <RoadmapInputURL index={index} register={register} />
       </div>
       <div className="h-7">
         {/* Formが2つ以上ある場合のみ削除できるボタンを表示 */}
         {canRemoveForm && <DotButton handleDeleteForm={() => remove(index)} />}
-        <ErrorMessages errors={errors} index={index} />
       </div>
     </div>
   );
