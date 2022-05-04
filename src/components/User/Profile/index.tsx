@@ -1,12 +1,20 @@
-import { UserState } from "@/components/common/Auth/Auth";
+import { User } from "@/domain/user/User";
+import { GET_AUTHOR_BY_ID } from "@/lib/graphql/author/getAuthorById";
 import { EDIT_AUTHOR } from "@/lib/graphql/author/postAuthorMutation";
-import { EditAuthorMutation, EditAuthorMutationVariables } from "@/model/types";
-import { useMutation } from "@apollo/client";
+import {
+  EditAuthorMutation,
+  EditAuthorMutationVariables,
+  GetAuthorByIdQuery,
+  GetAuthorByIdQueryVariables,
+} from "@/model/types";
+import { useAppDispatch } from "@/store/hooks";
+import { setUser } from "@/store/user/userSlice";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 interface ProfileProps {
-  user: UserState;
+  user: User;
 }
 
 export const Profile: React.FC<ProfileProps> = ({ user }) => {
@@ -14,8 +22,13 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
     EditAuthorMutation,
     EditAuthorMutationVariables
   >(EDIT_AUTHOR);
+  const [getAuthorById] = useLazyQuery<
+    GetAuthorByIdQuery,
+    GetAuthorByIdQueryVariables
+  >(GET_AUTHOR_BY_ID);
+  const dispatch = useAppDispatch();
   const [editMode, setEditMode] = useState(false);
-  const [userName, setUserName] = useState(user.data?.name || "");
+  const [userName, setUserName] = useState(user?.name || "");
   const handleOnClick = () => {
     setEditMode((edit) => !edit);
   };
@@ -31,10 +44,19 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
       },
     }).then(() => {
       setEditMode((edit) => !edit);
+      // Reduxの値を更新
+      getAuthorById().then((author) => {
+        dispatch(
+          setUser({
+            ...user,
+            name: author.data?.getAuthorById.name,
+          })
+        );
+      });
     });
   };
   useEffect(() => {
-    setUserName(user.data?.name || "");
+    setUserName(user?.name || "");
   }, [user]);
   return (
     <div className="bg-white px-4 py-8 rounded-lg shadow basis-4/12 flex justify-center flex-col h-72">
@@ -80,7 +102,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
       <div className="flex justify-center mb-2">
         <Image
           className="inline object-cover w-16 h-16 rounded-full border-2 border-gray-500"
-          src={user.data?.iconUrl ? user.data?.iconUrl : "/noimage.svg"}
+          src={user?.iconUrl ? user.iconUrl : "/noimage.svg"}
           width={50}
           height={50}
           alt="Profile image"
@@ -97,7 +119,7 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
             ></input>
           </div>
         ) : (
-          <span className="p-2.5">{user.data?.name}</span>
+          <span className="p-2.5">{user?.name}</span>
         )}
       </div>
       <div className="flex justify-around">
@@ -113,10 +135,3 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
     </div>
   );
 };
-function useLazyQuery<T, U>(GET_AUTHOR_BY_ID: any): [any] {
-  throw new Error("Function not implemented.");
-}
-
-function GET_AUTHOR_BY_ID<T, U>(GET_AUTHOR_BY_ID: any): [any] {
-  throw new Error("Function not implemented.");
-}

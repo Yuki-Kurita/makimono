@@ -1,11 +1,12 @@
-import { AuthContext } from "@/components/common/Auth/Auth";
 import Layout from "@/components/common/Layout";
+import { Profile } from "@/components/User/Profile";
 import { UserRoadmaps } from "@/components/User/UserRoadmaps";
 import { client } from "@/lib/config/apolloClient";
 import { GET_ALL_AUTHOR_IDS } from "@/lib/graphql/author/getAllAuthorIds";
 import { GetAllAuthorsQuery, GetAllAuthorsQueryVariables } from "@/model/types";
+import { useAppSelector } from "@/store/hooks";
 import { GetStaticPaths, GetStaticProps } from "next";
-import React, { useContext } from "react";
+import React from "react";
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id;
@@ -29,11 +30,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const UserPage: React.FC = () => {
-  const user = useContext(AuthContext);
+  const user = useAppSelector((state) => state.user);
   return (
     <Layout>
       <main className="container mx-auto mt-6 flex gap-8">
-        {/* <Profile user={user} /> */}
+        <Profile user={user} />
         <UserRoadmaps />
       </main>
     </Layout>
