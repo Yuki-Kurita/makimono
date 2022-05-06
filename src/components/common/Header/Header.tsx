@@ -8,6 +8,7 @@ interface HeaderProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   onClickSignOut: () => void;
+  onClickSearchButton: () => void;
 }
 
 const Header: React.VFC<HeaderProps> = ({
@@ -15,6 +16,7 @@ const Header: React.VFC<HeaderProps> = ({
   isOpen,
   setIsOpen,
   onClickSignOut,
+  onClickSearchButton,
 }) => {
   return (
     <div className="pt-3">
@@ -36,7 +38,22 @@ const Header: React.VFC<HeaderProps> = ({
             </a>
           </Link>
           <div className="flex items-center justify-end space-x-3 align-middle md:flex-1 lg:w-0">
-            <Image src="/search.svg" width={25} height={25} alt="search icon" />
+            <button onClick={onClickSearchButton}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={3}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </button>
             {user?.name ? (
               <>
                 <Link href="/roadmaps/new">

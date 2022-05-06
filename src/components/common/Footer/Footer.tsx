@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-white ">
+    <footer className="bg-white shadow">
       <div className="container mx-auto mt-8 px-8">
         <div className="w-full flex flex-col md:flex-row py-6">
           <div className="flex-1 mb-6">
@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
               >
                 <path d="M13 8V0L8.11 5.87 3 12h4v8L17 8h-4z" />
               </svg>
-              Tebiki
+              makimono
             </a>
           </div>
 
