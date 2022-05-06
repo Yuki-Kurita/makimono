@@ -47,7 +47,7 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
   if (loading) <h3>loading...</h3>;
 
   return (
-    <Layout>
+    <Layout categories={categories}>
       <main>
         <div className="py-8">
           <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-600">

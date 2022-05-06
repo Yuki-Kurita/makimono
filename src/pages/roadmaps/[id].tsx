@@ -4,13 +4,17 @@ import { RoadmapHeader } from "@/components/RoadmapDetail/RoadmapHeader";
 import { RoadmapItems } from "@/components/RoadmapDetail/RoadmapItems";
 import { SideContents } from "@/components/RoadmapDetail/SideContents";
 import { client } from "@/lib/config/apolloClient";
+import { FIND_ALL_CATEGORIES } from "@/lib/graphql/category/categoryQuery";
 import { FETCH_ALL_ROADMAP_IDS } from "@/lib/graphql/roadmapDetail/fetchAllRoadmapIds";
 import { FETCH_ROADMAP_BY_ID } from "@/lib/graphql/roadmapDetail/fetchRoadmapById";
 import {
+  Category,
   FetchAllRoadmapIdsQuery,
   FetchAllRoadmapIdsQueryVariables,
   FetchRoadmapByIdQuery,
   FetchRoadmapByIdQueryVariables,
+  FindAllCategoryQuery,
+  FindAllCategoryQueryVariables,
   Like,
   Roadmap,
 } from "@/model/types";
@@ -21,6 +25,7 @@ import React from "react";
 
 interface RoadmapDetailProps {
   id: string;
+  categories: Category[];
 }
 
 interface RoadmapDetailPath extends ParsedUrlQuery {
@@ -30,13 +35,19 @@ interface RoadmapDetailPath extends ParsedUrlQuery {
 export const getStaticProps: GetStaticProps<any, RoadmapDetailPath> = async ({
   params,
 }) => {
+  const { data, error } = await client.query<
+    FindAllCategoryQuery,
+    FindAllCategoryQueryVariables
+  >({
+    query: FIND_ALL_CATEGORIES,
+  });
   const id = params?.id;
   // TODO: idが取得できなかったケースのエラーハンドリング
   if (!id) {
     throw Error("Not found id");
   }
   return {
-    props: { id },
+    props: { id, categories: data.findAllCategories },
   };
 };
 
@@ -54,13 +65,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-const RoadmapDetailPage: NextPage<RoadmapDetailProps> = ({ id }) => {
+const RoadmapDetailPage: NextPage<RoadmapDetailProps> = ({
+  id,
+  categories,
+}) => {
   const { data, loading, refetch } = useQuery<
     FetchRoadmapByIdQuery,
     FetchRoadmapByIdQueryVariables
   >(FETCH_ROADMAP_BY_ID, { variables: { id } });
   return (
-    <Layout>
+    <Layout categories={categories}>
       <main className="container mx-auto">
         {loading ? (
           <Loading />

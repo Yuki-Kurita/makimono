@@ -72,7 +72,7 @@ const CreateRoadmapPage: NextPage<NewPageProps> = ({ categories }) => {
     });
   };
   return (
-    <Layout>
+    <Layout categories={categories}>
       <main className="py-8 mb-4">
         {viewPattern === "success" ? (
           // ロードマップ作成完了
