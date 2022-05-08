@@ -3,12 +3,8 @@ import { ROADMAP_FIELDS } from "../roadmap/roadmapFragment";
 
 export const FETCH_FOR_EXPLORE = gql`
   ${ROADMAP_FIELDS}
-  query fetchForExplore($limit: Int!) {
-    findLatestRoadmap: findRoadmap(
-      limit: $limit
-      order: DESC
-      orderBy: UPDATEDAT
-    ) {
+  query fetchForExplore($limit: Int!, $query: String, $categoryId: Int) {
+    findRoadmap(limit: $limit, query: $query, categoryId: $categoryId) {
       ...RoadmapFields
     }
   }

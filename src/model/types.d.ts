@@ -231,6 +231,15 @@ export type FindAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: number, name: string }> };
 
+export type FetchForExploreQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  query?: InputMaybe<Scalars['String']>;
+  categoryId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type FetchForExploreQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
+
 export type UpdateLikeMutationVariables = Exact<{
   roadmapId: Scalars['String'];
 }>;
@@ -540,6 +549,43 @@ export function useFindAllCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOp
 export type FindAllCategoryQueryHookResult = ReturnType<typeof useFindAllCategoryQuery>;
 export type FindAllCategoryLazyQueryHookResult = ReturnType<typeof useFindAllCategoryLazyQuery>;
 export type FindAllCategoryQueryResult = Apollo.QueryResult<FindAllCategoryQuery, FindAllCategoryQueryVariables>;
+export const FetchForExploreDocument = gql`
+    query fetchForExplore($limit: Int!, $query: String, $categoryId: Int) {
+  findRoadmap(limit: $limit, query: $query, categoryId: $categoryId) {
+    ...RoadmapFields
+  }
+}
+    ${RoadmapFieldsFragmentDoc}`;
+
+/**
+ * __useFetchForExploreQuery__
+ *
+ * To run a query within a React component, call `useFetchForExploreQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchForExploreQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchForExploreQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      query: // value for 'query'
+ *      categoryId: // value for 'categoryId'
+ *   },
+ * });
+ */
+export function useFetchForExploreQuery(baseOptions: Apollo.QueryHookOptions<FetchForExploreQuery, FetchForExploreQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchForExploreQuery, FetchForExploreQueryVariables>(FetchForExploreDocument, options);
+      }
+export function useFetchForExploreLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchForExploreQuery, FetchForExploreQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchForExploreQuery, FetchForExploreQueryVariables>(FetchForExploreDocument, options);
+        }
+export type FetchForExploreQueryHookResult = ReturnType<typeof useFetchForExploreQuery>;
+export type FetchForExploreLazyQueryHookResult = ReturnType<typeof useFetchForExploreLazyQuery>;
+export type FetchForExploreQueryResult = Apollo.QueryResult<FetchForExploreQuery, FetchForExploreQueryVariables>;
 export const UpdateLikeDocument = gql`
     mutation updateLike($roadmapId: String!) {
   updateLike(roadmapId: $roadmapId) {
