@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Footer: React.FC = () => {
@@ -5,20 +6,12 @@ const Footer: React.FC = () => {
     <footer className="bg-white shadow">
       <div className="container mx-auto mt-8 px-8">
         <div className="w-full flex flex-col md:flex-row py-6">
-          <div className="flex-1 mb-6">
-            <a
-              className="text-orange-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
-              href="#"
-            >
-              <svg
-                className="h-6 w-6 inline-block"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-              >
-                <path d="M13 8V0L8.11 5.87 3 12h4v8L17 8h-4z" />
-              </svg>
-              makimono
-            </a>
+          <div className="flex-1 mb-6 pt-4">
+            <Link href="/">
+              <a className="text-gray-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl">
+                makimono
+              </a>
+            </Link>
           </div>
 
           <div className="flex-1">
@@ -27,32 +20,22 @@ const Footer: React.FC = () => {
             </p>
             <ul className="list-reset mb-6">
               <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a
-                  href="#"
-                  className="font-light no-underline hover:underline text-gray-800 hover:text-orange-500"
-                >
-                  FAQ
-                </a>
+                <Link href="/about">
+                  <a className="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">
+                    makimonoについて
+                  </a>
+                </Link>
               </li>
               <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a
-                  href="#"
-                  className="font-light no-underline hover:underline text-gray-800 hover:text-orange-500"
-                >
-                  Help
-                </a>
-              </li>
-              <li className="mt-2 inline-block mr-2 md:block md:mr-0">
-                <a
-                  href="#"
-                  className="font-light no-underline hover:underline text-gray-800 hover:text-orange-500"
-                >
-                  Support
-                </a>
+                <Link href="/about#how-to-use">
+                  <a className="font-light no-underline hover:underline text-gray-800 hover:text-orange-500">
+                    使い方
+                  </a>
+                </Link>
               </li>
             </ul>
           </div>
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <p className="uppercase font-extrabold text-gray-500 md:mb-6">
               Legal
             </p>
@@ -74,8 +57,8 @@ const Footer: React.FC = () => {
                 </a>
               </li>
             </ul>
-          </div>
-          <div className="flex-1">
+          </div> */}
+          {/* <div className="flex-1">
             <p className="uppercase font-extrabold text-gray-500 md:mb-6">
               Social
             </p>
@@ -136,7 +119,7 @@ const Footer: React.FC = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
