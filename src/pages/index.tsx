@@ -40,7 +40,7 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
     FetchForTopQueryVariables
   >(FETCH_FOR_TOP, {
     variables: {
-      limit: 6,
+      limit: 9,
     },
   });
 
@@ -48,74 +48,43 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
 
   return (
     <Layout categories={categories}>
-      <main>
-        <div className="py-8">
-          <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-600">
-            Latest
+      <main className="">
+        <div className="py-8 mx-auto container">
+          <h1 className="text-3xl font-extrabold mb-6 text-left md:pl-20 pl-10 text-gray-600">
+            Trend
           </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {data?.findLatestRoadmap &&
               data?.findLatestRoadmap.map((roadmap) => (
                 <RoadmapPost roadmap={roadmap} key={roadmap.id} />
               ))}
           </div>
-          <MoreButton href="/roadmaps/latest">
-            最新のロードマップを見る→
-          </MoreButton>
-        </div>
-        <div className="py-8 bg-teriary-light">
-          <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-600">
-            Weekly Ranking
-          </h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2">
-            {data?.findLatestRoadmap &&
-              data?.findLatestRoadmap.map((roadmap) => (
-                <RoadmapPost roadmap={roadmap} key={roadmap.id} />
-              ))}
-          </div>
-          <MoreButton href="/roadmaps/ranking">
+          <MoreButton href="/explore?orderBy=likes&order=DESC">
             人気のロードマップを見る→
           </MoreButton>
         </div>
-        <div className="py-8">
-          <h1 className="text-3xl font-extrabold mb-6 text-center text-gray-600">
-            Featured Category
-          </h1>
-          <div className="flex flex-col">
-            <div className="grid grid-cols-1 sm:grid-cols-2">
-              <div>
-                <h2 className="text-xl font-extrabold mt-4 mb-4 text-center text-gray-500">
-                  Programming
-                </h2>
-                {data?.findProgrammingRoadmap &&
-                  data?.findProgrammingRoadmap.map((roadmap) => (
-                    <RoadmapPost roadmap={roadmap} key={roadmap.id} />
-                  ))}
-                <MoreButton href="/roadmaps/categories/programming">
-                  このカテゴリのロードマップを見る→
-                </MoreButton>
-              </div>
-              <div>
-                <h2 className="text-xl font-extrabold mt-4 mb-4 text-center text-gray-500">
-                  Art
-                </h2>
-                {data?.findArtRoadmap &&
-                  data?.findArtRoadmap.map((roadmap) => (
-                    <RoadmapPost roadmap={roadmap} key={roadmap.id} />
-                  ))}
-                <MoreButton href="/roadmaps/categories/art">
-                  このカテゴリのロードマップを見る→
-                </MoreButton>
-              </div>
+        <div className="py-8 bg-teriary-light">
+          <div className="mx-auto container">
+            <h1 className="text-3xl font-extrabold mb-6 text-left md:pl-20 pl-10 text-gray-600">
+              Latest
+            </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              {data?.findLatestRoadmap &&
+                data?.findLatestRoadmap.map((roadmap) => (
+                  <RoadmapPost roadmap={roadmap} key={roadmap.id} />
+                ))}
             </div>
+            <MoreButton href="/explore?orderBy=updated_at&order=DESC">
+              最新のロードマップを見る→
+            </MoreButton>
           </div>
-        </div>
-        <div className="py-4 bg-teriary-light">
-          <h2 className="text-xl font-extrabold mt-6 mb-4 text-center text-gray-500">
-            All Categories
-          </h2>
-          <div className="mb-6 px-20">
-            <CategoryTips categories={categories} />
+          <div className="py-4 bg-teriary-light">
+            <h2 className="text-xl font-extrabold mt-6 mb-4 text-center text-gray-500">
+              All Categories
+            </h2>
+            <div className="px-20">
+              <CategoryTips categories={categories} />
+            </div>
           </div>
         </div>
       </main>
