@@ -1,3 +1,4 @@
+import { Button } from "@/components/common/Button";
 import { Layout } from "@/components/common/Layout";
 import { Loading } from "@/components/common/Loading";
 import { SearchArea } from "@/components/Explore/SearchArea";
@@ -84,6 +85,9 @@ const ExplorePage: NextPage<ExplorePageProps> = ({ categories }) => {
                 <RoadmapPost roadmap={roadmap} key={roadmap.id} />
               ))}
           </div>
+        </div>
+        <div className="flex justify-center">
+          <Button onClick={() => {}}>もっと読み込む</Button>
         </div>
       </main>
     </Layout>

@@ -1,6 +1,12 @@
 import { Category } from "@/model/types";
 import React from "react";
 import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "react-beautiful-dnd";
+import {
   FieldError,
   SubmitHandler,
   useFieldArray,
@@ -65,11 +71,17 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
     },
   });
   // https://react-hook-form.com/api/usefieldarray
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, swap } = useFieldArray({
     name: "roadmaps",
     control,
   });
   const canRemoveForm = fields.length >= 2;
+  const handleOnDragEnd = (result: DropResult) => {
+    // swap
+    // from: ドラッグされるコンポーネントの元のインデックス
+    // to: ドラッグされるコンポーネントの遷移先のインデックス
+    if (result.destination) swap(result.source.index, result.destination.index);
+  };
   return (
     <div className="flex container mx-auto flex-col-reverse md:flex-row">
       <div className="px-4 py-2 w-full md:w-3/4 bg-teriary-light rounded-lg shadow-md">
@@ -83,17 +95,40 @@ export const RoadmapForm: React.VFC<RoadmapFormProps> = ({
             })}
           />
           <ErrorMessage message={errors.title?.message} />
-          {fields.map((field, index) => (
-            <RoadmapInput
-              id={field.id}
-              index={index}
-              key={field.id}
-              register={register}
-              canRemoveForm={canRemoveForm}
-              remove={remove}
-              error={errors.roadmaps?.[index] as RoadmapFormError}
-            />
-          ))}
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+            <Droppable droppableId="droppable">
+              {(provided, snapshot) => (
+                <div {...provided.droppableProps} ref={provided.innerRef}>
+                  {fields.map((field, index) => (
+                    <Draggable
+                      key={field.id}
+                      draggableId={field.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          key={field.id}
+                        >
+                          <RoadmapInput
+                            id={field.id}
+                            index={index}
+                            register={register}
+                            canRemoveForm={canRemoveForm}
+                            remove={remove}
+                            error={errors.roadmaps?.[index] as RoadmapFormError}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
           <div className="text-center mt-7">
             <button
               type="button"
