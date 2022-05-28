@@ -151,6 +151,7 @@ export type MutationUpdateRoadmapArgs = {
 export type Query = {
   __typename?: 'Query';
   fetchIsLikedByMe: Array<Like>;
+  fetchRoadmap: Array<Roadmap>;
   findAllCategories: Array<Category>;
   findLikeRoadmap: Array<Roadmap>;
   findMyRoadmap: Array<Roadmap>;
@@ -162,6 +163,17 @@ export type Query = {
 
 export type QueryFetchIsLikedByMeArgs = {
   roadmapId: Scalars['String'];
+};
+
+
+export type QueryFetchRoadmapArgs = {
+  categoryId?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order?: InputMaybe<RoadmapOrder>;
+  orderBy?: InputMaybe<RoadmapOrderBy>;
+  query?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -241,7 +253,7 @@ export type FetchForExploreQueryVariables = Exact<{
 }>;
 
 
-export type FetchForExploreQuery = { __typename?: 'Query', findRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
+export type FetchForExploreQuery = { __typename?: 'Query', fetchRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
 
 export type UpdateLikeMutationVariables = Exact<{
   roadmapId: Scalars['String'];
@@ -295,7 +307,7 @@ export type FetchForTopQueryVariables = Exact<{
 }>;
 
 
-export type FetchForTopQuery = { __typename?: 'Query', findLatestRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findProgrammingRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findArtRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
+export type FetchForTopQuery = { __typename?: 'Query', findLatestRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }>, findTrendRoadmap: Array<{ __typename?: 'Roadmap', id: string, title: string, likes: number, updatedAt: any, category: { __typename?: 'Category', id: number, name: string }, items: Array<{ __typename?: 'Item', id: number }>, author: { __typename?: 'Author', name: string, iconUrl?: string | null } }> };
 
 export type FindUserRoadmapQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -554,7 +566,7 @@ export type FindAllCategoryLazyQueryHookResult = ReturnType<typeof useFindAllCat
 export type FindAllCategoryQueryResult = Apollo.QueryResult<FindAllCategoryQuery, FindAllCategoryQueryVariables>;
 export const FetchForExploreDocument = gql`
     query fetchForExplore($limit: Int!, $offset: Int!, $query: String, $categoryId: Int, $order: RoadmapOrder, $orderBy: RoadmapOrderBy) {
-  findRoadmap(
+  fetchRoadmap(
     limit: $limit
     offset: $offset
     query: $query
@@ -811,10 +823,7 @@ export const FetchForTopDocument = gql`
   findLatestRoadmap: findRoadmap(limit: $limit, order: DESC, orderBy: UPDATEDAT) {
     ...RoadmapFields
   }
-  findProgrammingRoadmap: findRoadmap(limit: $limit, categoryId: 1) {
-    ...RoadmapFields
-  }
-  findArtRoadmap: findRoadmap(limit: $limit, categoryId: 6) {
+  findTrendRoadmap: findRoadmap(limit: $limit, order: DESC, orderBy: LIKES) {
     ...RoadmapFields
   }
 }
@@ -931,9 +940,10 @@ export type MutationFieldPolicy = {
 	updateLike?: FieldPolicy<any> | FieldReadFunction<any>,
 	updateRoadmap?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('fetchIsLikedByMe' | 'findAllCategories' | 'findLikeRoadmap' | 'findMyRoadmap' | 'findRoadmap' | 'getAllAuthors' | 'getAuthorById' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('fetchIsLikedByMe' | 'fetchRoadmap' | 'findAllCategories' | 'findLikeRoadmap' | 'findMyRoadmap' | 'findRoadmap' | 'getAllAuthors' | 'getAuthorById' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	fetchIsLikedByMe?: FieldPolicy<any> | FieldReadFunction<any>,
+	fetchRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	findAllCategories?: FieldPolicy<any> | FieldReadFunction<any>,
 	findLikeRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,
 	findMyRoadmap?: FieldPolicy<any> | FieldReadFunction<any>,

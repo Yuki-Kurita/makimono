@@ -11,7 +11,7 @@ export const FETCH_FOR_EXPLORE = gql`
     $order: RoadmapOrder
     $orderBy: RoadmapOrderBy
   ) {
-    findRoadmap(
+    fetchRoadmap(
       limit: $limit
       offset: $offset
       query: $query

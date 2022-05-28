@@ -11,10 +11,7 @@ export const FETCH_FOR_TOP = gql`
     ) {
       ...RoadmapFields
     }
-    findProgrammingRoadmap: findRoadmap(limit: $limit, categoryId: 1) {
-      ...RoadmapFields
-    }
-    findArtRoadmap: findRoadmap(limit: $limit, categoryId: 6) {
+    findTrendRoadmap: findRoadmap(limit: $limit, order: DESC, orderBy: LIKES) {
       ...RoadmapFields
     }
   }

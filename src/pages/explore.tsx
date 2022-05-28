@@ -73,7 +73,7 @@ const ExplorePage: NextPage<ExplorePageProps> = ({ categories }) => {
     // もっと読み込むボタンが押されるたびに12件ずつ呼び出す
     fetchMore({
       variables: {
-        offset: data?.findRoadmap.length,
+        offset: data?.fetchRoadmap.length,
       },
     });
   };
@@ -88,8 +88,8 @@ const ExplorePage: NextPage<ExplorePageProps> = ({ categories }) => {
         />
         <div className="py-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {data?.findRoadmap &&
-              data.findRoadmap.map((roadmap) => (
+            {data?.fetchRoadmap &&
+              data.fetchRoadmap.map((roadmap) => (
                 <RoadmapPost roadmap={roadmap} key={roadmap.id} />
               ))}
           </div>

@@ -40,12 +40,11 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
     FetchForTopQueryVariables
   >(FETCH_FOR_TOP, {
     variables: {
-      limit: 9,
+      limit: 12,
     },
   });
 
   if (loading) <h3>loading...</h3>;
-
   return (
     <Layout categories={categories}>
       <main className="">
@@ -54,10 +53,10 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
             Trend
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {data?.findLatestRoadmap &&
-              data?.findLatestRoadmap
+            {data?.findTrendRoadmap &&
+              data?.findTrendRoadmap
                 // Pagination時にキャッシュが残った時の対応
-                .slice(0, 9)
+                .slice(0, 12)
                 .map((roadmap) => (
                   <RoadmapPost roadmap={roadmap} key={roadmap.id} />
                 ))}
@@ -74,7 +73,7 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {data?.findLatestRoadmap &&
                 data?.findLatestRoadmap
-                  .slice(0, 9)
+                  .slice(0, 12)
                   .map((roadmap) => (
                     <RoadmapPost roadmap={roadmap} key={roadmap.id} />
                   ))}

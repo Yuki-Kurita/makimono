@@ -6,7 +6,7 @@ export const cache = new InMemoryCache({
     Query: {
       fields: {
         // offsetでページネーションを行うqueryを追加する
-        findRoadmap: offsetLimitPagination(),
+        fetchRoadmap: offsetLimitPagination(),
       },
     },
   },
