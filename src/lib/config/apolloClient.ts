@@ -1,6 +1,7 @@
 import { auth } from "@/config/firebaseConfig";
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { cache } from "./cache";
 
 const httpLink = createHttpLink({
   uri: `${process.env.NEXT_PUBLIC_ENDPOINT}/graphql`,
@@ -22,5 +23,5 @@ const authLink = setContext(async (_, context) => {
 
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
+  cache: cache,
 });

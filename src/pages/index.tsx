@@ -55,9 +55,12 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {data?.findLatestRoadmap &&
-              data?.findLatestRoadmap.map((roadmap) => (
-                <RoadmapPost roadmap={roadmap} key={roadmap.id} />
-              ))}
+              data?.findLatestRoadmap
+                // Pagination時にキャッシュが残った時の対応
+                .slice(0, 9)
+                .map((roadmap) => (
+                  <RoadmapPost roadmap={roadmap} key={roadmap.id} />
+                ))}
           </div>
           <MoreButton href="/explore?orderBy=likes&order=DESC">
             人気のロードマップを見る→
@@ -70,9 +73,11 @@ const ListPage: NextPage<ListPageProps> = ({ categories }) => {
             </h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {data?.findLatestRoadmap &&
-                data?.findLatestRoadmap.map((roadmap) => (
-                  <RoadmapPost roadmap={roadmap} key={roadmap.id} />
-                ))}
+                data?.findLatestRoadmap
+                  .slice(0, 9)
+                  .map((roadmap) => (
+                    <RoadmapPost roadmap={roadmap} key={roadmap.id} />
+                  ))}
             </div>
             <MoreButton href="/explore?orderBy=updated_at&order=DESC">
               最新のロードマップを見る→

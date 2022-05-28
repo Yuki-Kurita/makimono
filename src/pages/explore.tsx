@@ -48,7 +48,8 @@ const ExplorePage: NextPage<ExplorePageProps> = ({ categories }) => {
   const { q, category, order, orderBy } = router.query;
   const categoryId = categories.find((c) => c.name === category)?.id;
   const variables: FetchForExploreQueryVariables = {
-    limit: 18,
+    limit: 12,
+    offset: 0,
   };
   if (q) variables.query = q as string;
   if (categoryId) variables.categoryId = categoryId;
@@ -62,13 +63,20 @@ const ExplorePage: NextPage<ExplorePageProps> = ({ categories }) => {
       variables.orderBy = RoadmapOrderBy.Likes;
     }
   }
-  const { data, loading, error } = useQuery<
+  const { data, loading, error, fetchMore } = useQuery<
     FetchForExploreQuery,
     FetchForExploreQueryVariables
   >(FETCH_FOR_EXPLORE, {
     variables,
   });
-
+  const onClickFetchMore = () => {
+    // もっと読み込むボタンが押されるたびに12件ずつ呼び出す
+    fetchMore({
+      variables: {
+        offset: data?.findRoadmap.length,
+      },
+    });
+  };
   if (loading) <Loading />;
   return (
     <Layout categories={categories}>
@@ -87,7 +95,7 @@ const ExplorePage: NextPage<ExplorePageProps> = ({ categories }) => {
           </div>
         </div>
         <div className="flex justify-center">
-          <Button onClick={() => {}}>もっと読み込む</Button>
+          <Button onClick={onClickFetchMore}>もっと読み込む</Button>
         </div>
       </main>
     </Layout>

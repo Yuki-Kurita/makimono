@@ -233,6 +233,7 @@ export type FindAllCategoryQuery = { __typename?: 'Query', findAllCategories: Ar
 
 export type FetchForExploreQueryVariables = Exact<{
   limit: Scalars['Int'];
+  offset: Scalars['Int'];
   query?: InputMaybe<Scalars['String']>;
   categoryId?: InputMaybe<Scalars['Int']>;
   order?: InputMaybe<RoadmapOrder>;
@@ -552,9 +553,10 @@ export type FindAllCategoryQueryHookResult = ReturnType<typeof useFindAllCategor
 export type FindAllCategoryLazyQueryHookResult = ReturnType<typeof useFindAllCategoryLazyQuery>;
 export type FindAllCategoryQueryResult = Apollo.QueryResult<FindAllCategoryQuery, FindAllCategoryQueryVariables>;
 export const FetchForExploreDocument = gql`
-    query fetchForExplore($limit: Int!, $query: String, $categoryId: Int, $order: RoadmapOrder, $orderBy: RoadmapOrderBy) {
+    query fetchForExplore($limit: Int!, $offset: Int!, $query: String, $categoryId: Int, $order: RoadmapOrder, $orderBy: RoadmapOrderBy) {
   findRoadmap(
     limit: $limit
+    offset: $offset
     query: $query
     categoryId: $categoryId
     order: $order
@@ -578,6 +580,7 @@ export const FetchForExploreDocument = gql`
  * const { data, loading, error } = useFetchForExploreQuery({
  *   variables: {
  *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
  *      query: // value for 'query'
  *      categoryId: // value for 'categoryId'
  *      order: // value for 'order'
